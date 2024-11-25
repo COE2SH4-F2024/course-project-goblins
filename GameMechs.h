@@ -19,6 +19,7 @@ class GameMechs
 
         int boardSizeX;
         int boardSizeY;
+        char ** board;
 
         objPos food;
 
