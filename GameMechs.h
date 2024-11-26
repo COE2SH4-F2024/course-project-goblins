@@ -23,7 +23,7 @@ class GameMechs {
     objPos food;
 
     // custom
-    char** board;
+    // char** board;
 
    public:
     GameMechs();
