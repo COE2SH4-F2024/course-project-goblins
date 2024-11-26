@@ -23,10 +23,6 @@ void Player::updatePlayerDir() {
     char input;
     input = mainGameMechsRef->getInput();
     switch (input) {
-        case ' ':  // exit
-            mainGameMechsRef->setExitTrue();
-            break;
-
         case 'w':
             if (myDir == LEFT || myDir == RIGHT || myDir == STOP)
                 myDir = UP;
@@ -89,3 +85,7 @@ void Player::movePlayer() {
 }
 
 // More methods to be added
+
+objPosArrayList* Player::getSnakeBody() const {
+    return playerPosList;  // Return the body list (head to tail)
+}

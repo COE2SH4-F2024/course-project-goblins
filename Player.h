@@ -27,10 +27,12 @@ class Player {
     void movePlayer();
 
     // More methods to be added here
+    objPosArrayList* Player::getSnakeBody() const;
 
    private:
     objPos playerPos;  // Upgrade this in iteration 3.
     enum Dir myDir;
+    objPosArrayList* playerPosList;
 
     // Need a reference to the Main Game Mechanisms
     GameMechs* mainGameMechsRef;
