@@ -2,8 +2,6 @@
 
 print_ptr MacUILib_printf;
 
-#define WINDOWS
-
 #ifdef WINDOWS
 
 #include <conio.h>

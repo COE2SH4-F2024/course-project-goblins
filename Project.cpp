@@ -13,6 +13,7 @@ using namespace std;
 GameMechs* gameMechs;
 Player* player;
 Food* food;
+objPos* printPointer;
 
 void Initialize(void);
 void GetInput(void);
@@ -24,7 +25,7 @@ void CleanUp(void);
 int main(void) {
     Initialize();
 
-    while (gameMechs->getExitFlagStatus()) {
+    while (!gameMechs->getExitFlagStatus()) {
         GetInput();
         RunLogic();
         DrawScreen();
@@ -41,10 +42,12 @@ void Initialize(void) {
     gameMechs = new GameMechs(30, 15);
     player = new Player(gameMechs);
     food = new Food(gameMechs);
+    printPointer = new objPos;
 
     food->generateFood(player->getPlayerBody());
 
-    gameMechs->incrementScore();
+    MacUILib_Delay(2000000);
+    // gameMechs->incrementScore();
 }
 
 void GetInput(void) {
@@ -59,7 +62,7 @@ void RunLogic(void) {
         gameMechs->setExitTrue();
     }
 
-    if (player->getPlayerPos().isPosEqual(&food->getFoodPos())) {
+    if (player->getPlayerPos()->isPosEqual(food->getFoodPos())) {
         gameMechs->incrementScore();
         player->increasePlayerBody();
         food->generateFood(player->getPlayerBody());
@@ -71,6 +74,7 @@ void RunLogic(void) {
     if (gameMechs->getLoseFlagStatus()) {
         gameMechs->setExitTrue();
     }
+    gameMechs->clearInput();
 }
 
 void DrawScreen(void) {
@@ -81,17 +85,23 @@ void DrawScreen(void) {
         for (int x = 0; x < gameMechs->getBoardSizeX(); ++x) {
             if (x == 0 || y == 0 || x == gameMechs->getBoardSizeX() - 1 || y == gameMechs->getBoardSizeY() - 1) {
                 cout << '#';
-            } else if (player->getPlayerPos().pos->x == x && player->getPlayerPos().pos->y == y) {
-                cout << player->getPlayerPos().getSymbol();
-            } else if (food->getFoodPos().getObjPos().pos->x == x && food->getFoodPos().getObjPos().pos->x == y) {
-                cout << food->getFoodPos().getSymbol();
             } else {
-                cout << ' ';
+                printPointer->setObjPos(x, y);
+                char symbol[] = {
+                    player->getPlayerPos()->getSymbolIfPosEqual(printPointer->getObjPos()), food->getFoodPos()->getSymbolIfPosEqual(printPointer->getObjPos())};
+                bool flag = 1;
+                char draw = ' ';
+                for (int i = 0; i < 2; ++i) {
+                    if (symbol[i] != 0) {
+                        draw = symbol[i];
+                    }
+                }
+                cout << draw;
             }
         }
         cout << endl;
     }
-
+    cout << "Food location: " << food->getFoodPos()->getObjPos()->pos->x << ' ' << food->getFoodPos()->getObjPos()->pos->y << endl;
     cout << "Score: " << gameMechs->getScore() << endl;
     cout << "Press [Space] to quit." << endl;
 }
@@ -104,8 +114,6 @@ void CleanUp(void) {
     delete gameMechs;
     delete player;
     delete food;
-
-    MacUILib_clearScreen();
-
+    delete printPointer;
     MacUILib_uninit();
 }

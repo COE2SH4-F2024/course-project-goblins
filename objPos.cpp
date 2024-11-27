@@ -1,17 +1,23 @@
 #include "objPos.h"
 
+#include <iostream>
+
 objPos::objPos() {
+    // std::cout << "objPos const: ";
     pos = new Pos;
     pos->x = 0;
     pos->y = 0;
     symbol = 0;  // NULL
+    // std::cout << "Success" << std::endl;
 }
 
 objPos::objPos(int xPos, int yPos, char sym) {
+    // std::cout << "objPos const: ";
     pos = new Pos;
     pos->x = xPos;
     pos->y = yPos;
     symbol = sym;
+    // std::cout << "Success" << std::endl;
 }
 
 // Respect the rule of six / minimum four
@@ -26,17 +32,22 @@ void objPos::setObjPos(objPos o) {
     symbol = o.symbol;
 }
 
+void objPos::setObjPos(int xPos, int yPos) {
+    pos->x = xPos;
+    pos->y = yPos;
+}
+
 void objPos::setObjPos(int xPos, int yPos, char sym) {
     pos->x = xPos;
     pos->y = yPos;
     symbol = sym;
 }
 
-objPos objPos::getObjPos() const {
-    objPos returnPos;
-    returnPos.pos->x = pos->x;
-    returnPos.pos->y = pos->y;
-    returnPos.symbol = symbol;
+objPos* objPos::getObjPos() const {
+    objPos* returnPos = new objPos();
+    returnPos->pos->x = pos->x;
+    returnPos->pos->y = pos->y;
+    returnPos->symbol = symbol;
 
     return returnPos;
 }

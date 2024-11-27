@@ -7,14 +7,14 @@
 
 class Food {
    private:
-    objPos foodPos;
+    objPos* foodPos;
     GameMechs* mainGameMechsRef;
 
    public:
     Food(GameMechs* thisGMRef);
     ~Food();
     void generateFood(objPosArrayList* snakeBody);
-    objPos getFoodPos() const;
+    objPos* getFoodPos() const;
 };
 
 #endif

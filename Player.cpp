@@ -1,20 +1,27 @@
 #include "Player.h"
 
+#include <iostream>
+
 Player::Player(GameMechs* thisGMRef) {
+    std::cout << "Player const: ";
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
 
     // more actions to be included
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX() / 2, mainGameMechsRef->getBoardSizeY() / 2, '@');
-    playerPosList->insertHead(playerPos);
+    playerPos = new objPos;
+    playerPosList = new objPosArrayList;
+    playerPos->setObjPos(1, 1, '@');
+    playerPosList->insertHead(*playerPos);
+    std::cout << "Success" << std::endl;
 }
 
 Player::~Player() {
     // delete any heap members here
-    // nothing to delet here
+    delete playerPos;
+    delete playerPosList;
 }
 
-objPos Player::getPlayerPos() const {
+objPos* Player::getPlayerPos() const {
     // return the reference to the playerPos arrray list
     return playerPos;
 }
@@ -47,13 +54,12 @@ void Player::updatePlayerDir() {
         default:
             break;
     }
-    mainGameMechsRef->clearInput();
 }
 
 void Player::movePlayer() {
     // PPA3 Finite State Machine logic
-    int x = playerPos.pos->x;
-    int y = playerPos.pos->y;
+    int x = playerPos->getObjPos()->pos->x;
+    int y = playerPos->getObjPos()->pos->y;
 
     switch (myDir) {
         case UP:
@@ -73,21 +79,21 @@ void Player::movePlayer() {
     }
 
     // Wrap-around logic
-    if (x < 0)
+    if (x < 1)
         x = mainGameMechsRef->getBoardSizeX() - 1;
     if (x >= mainGameMechsRef->getBoardSizeX())
-        x = 0;
-    if (y < 0)
+        x = 1;
+    if (y < 1)
         y = mainGameMechsRef->getBoardSizeY() - 1;
     if (y >= mainGameMechsRef->getBoardSizeY())
-        y = 0;
+        y = 1;
 
-    playerPos.setObjPos(x, y, '*');
+    playerPos->setObjPos(x, y, '@');
 }
 
 // More methods to be added
 void Player::increasePlayerBody() {
-    playerPosList->insertHead(playerPos);
+    playerPosList->insertHead(*playerPos->getObjPos());
 }
 
 objPosArrayList* Player::getPlayerBody() const {

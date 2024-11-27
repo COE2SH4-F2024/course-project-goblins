@@ -1,21 +1,27 @@
 #include "GameMechs.h"
 
+#include <iostream>
+
 GameMechs::GameMechs() {
+    std::cout << "GameMechs const: ";
     boardSizeX = 30;
     boardSizeY = 15;
     score = 0;
     exitFlag = false;
     loseFlag = false;
     input = '\0';
+    std::cout << "Success" << std::endl;
 }
 
 GameMechs::GameMechs(int boardX, int boardY) {
+    std::cout << "GameMechs const: ";
     boardSizeX = boardX;
     boardSizeY = boardY;
     score = 0;
     exitFlag = false;
     loseFlag = false;
     input = '\0';
+    std::cout << "Success" << std::endl;
 }
 
 // do you need a destructor?
@@ -64,7 +70,7 @@ void GameMechs::setInput(char this_input) {
 }
 
 void GameMechs::clearInput() {
-    input = NULL;
+    input = '\0';
 }
 
 // More methods should be added here
