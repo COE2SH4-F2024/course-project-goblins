@@ -12,8 +12,8 @@ Food::~Food() {
 void Food::generateFood(int boardWidth, int boardHeight, objPosArrayList* snakeBody) {
     bool isValid = false;
     while (!isValid) {
-        int x = rand() % 30;  // Example board width
-        int y = rand() % 15;  // Example board height
+        int x = rand() % boardWidth;
+        int y = rand() % boardHeight;
         foodPos.setObjPos(x, y, '*');
         isValid = true;
         for (int i = 0; i < snakeBody->getSize(); ++i) {

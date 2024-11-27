@@ -97,4 +97,8 @@ void CleanUp(void) {
     MacUILib_clearScreen();
 
     MacUILib_uninit();
+
+    delete gameMechs;
+    delete player;
+    delete food;
 }
