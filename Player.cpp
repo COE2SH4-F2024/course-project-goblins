@@ -6,6 +6,7 @@ Player::Player(GameMechs* thisGMRef) {
 
     // more actions to be included
     playerPos.setObjPos(1, 1, '@');
+    playerPosList->insertHead(playerPos);
 }
 
 Player::~Player() {

@@ -72,7 +72,9 @@ void DrawScreen(void) {
     // Draw the board
     for (int y = 0; y < gameMechs->getBoardSizeY(); ++y) {
         for (int x = 0; x < gameMechs->getBoardSizeX(); ++x) {
-            if (player->getPlayerPos().pos->x == x && player->getPlayerPos().pos->y == y) {
+            if (x == 0 || y == 0 || x == gameMechs->getBoardSizeX() - 1 || y == gameMechs->getBoardSizeY() - 1) {
+                cout << '#';
+            } else if (player->getPlayerPos().pos->x == x && player->getPlayerPos().pos->y == y) {
                 cout << player->getPlayerPos().getSymbol();
             } else if (food->getFoodPos().getObjPos().pos->x == x && food->getFoodPos().getObjPos().pos->x == y) {
                 cout << food->getFoodPos().getSymbol();
