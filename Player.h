@@ -27,7 +27,8 @@ class Player {
     void movePlayer();
 
     // More methods to be added here
-    objPosArrayList* Player::getSnakeBody() const;
+    void Player::increasePlayerBody();
+    objPosArrayList* Player::getPlayerBody() const;
 
    private:
     objPos playerPos;  // Upgrade this in iteration 3.

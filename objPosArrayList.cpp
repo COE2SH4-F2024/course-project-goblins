@@ -1,5 +1,7 @@
 #include "objPosArrayList.h"
 
+#include "objPos.h"
+
 // Paste your Tested implementation here.
 // Paste your Tested implementation here.
 // Paste your Tested implementation here.
@@ -18,12 +20,12 @@ int objPosArrayList::getSize() const {
     return listSize;
 }
 
-void objPosArrayList::insertHead(objPos thisPos) {
+void objPosArrayList::insertHead(objPos obj) {
     if (listSize >= arrayCapacity) return;
     for (int i = listSize; i > 0; --i) {
         aList[i] = aList[i - 1];
     }
-    aList[0] = thisPos;
+    aList[0] = obj;
     ++listSize;
 }
 

@@ -20,7 +20,7 @@ class GameMechs {
     int boardSizeX;
     int boardSizeY;
 
-    objPos food;
+    // objPos* food;
 
     // custom
     // char** board;
@@ -46,6 +46,7 @@ class GameMechs {
     void incrementScore();
 
     // More methods should be added here
+    // using iteration 1B
 };
 
 #endif

@@ -5,7 +5,7 @@ Player::Player(GameMechs* thisGMRef) {
     myDir = STOP;
 
     // more actions to be included
-    playerPos.setObjPos(1, 1, '@');
+    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX() / 2, mainGameMechsRef->getBoardSizeY() / 2, '@');
     playerPosList->insertHead(playerPos);
 }
 
@@ -86,7 +86,10 @@ void Player::movePlayer() {
 }
 
 // More methods to be added
+void Player::increasePlayerBody() {
+    playerPosList->insertHead(playerPos);
+}
 
-objPosArrayList* Player::getSnakeBody() const {
+objPosArrayList* Player::getPlayerBody() const {
     return playerPosList;  // Return the body list (head to tail)
 }

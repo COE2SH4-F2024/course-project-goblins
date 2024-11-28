@@ -8,11 +8,12 @@
 class Food {
    private:
     objPos foodPos;
+    GameMechs* mainGameMechsRef;
 
    public:
-    Food();
+    Food(GameMechs* thisGMRef);
     ~Food();
-    void generateFood(int boardWidth, int boardHeight, objPosArrayList* snakeBody);
+    void generateFood(objPosArrayList* snakeBody);
     objPos getFoodPos() const;
 };
 

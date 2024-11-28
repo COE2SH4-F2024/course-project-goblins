@@ -40,7 +40,9 @@ void Initialize(void) {
 
     gameMechs = new GameMechs(30, 15);
     player = new Player(gameMechs);
-    food = new Food();
+    food = new Food(gameMechs);
+
+    food->generateFood(player->getPlayerBody());
 
     gameMechs->incrementScore();
 }
@@ -57,8 +59,13 @@ void RunLogic(void) {
         gameMechs->setExitTrue();
     }
 
-    player->updatePlayerDir();
+    if (player->getPlayerPos().isPosEqual(&food->getFoodPos())) {
+        gameMechs->incrementScore();
+        player->increasePlayerBody();
+        food->generateFood(player->getPlayerBody());
+    }
 
+    player->updatePlayerDir();
     player->movePlayer();
 
     if (gameMechs->getLoseFlagStatus()) {
@@ -86,7 +93,7 @@ void DrawScreen(void) {
     }
 
     cout << "Score: " << gameMechs->getScore() << endl;
-    cout << "Press Q to quit." << endl;
+    cout << "Press [Space] to quit." << endl;
 }
 
 void LoopDelay(void) {
@@ -94,11 +101,11 @@ void LoopDelay(void) {
 }
 
 void CleanUp(void) {
-    MacUILib_clearScreen();
-
-    MacUILib_uninit();
-
     delete gameMechs;
     delete player;
     delete food;
+
+    MacUILib_clearScreen();
+
+    MacUILib_uninit();
 }
