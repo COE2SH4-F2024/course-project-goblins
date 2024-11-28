@@ -65,11 +65,14 @@ void RunLogic(void) {
     if (player->getPlayerPos()->isPosEqual(food->getFoodPos())) {
         gameMechs->incrementScore();
         player->increasePlayerBody();
+        player->moveBodyincrease();
         food->generateFood(player->getPlayerBody());
     }
 
     player->updatePlayerDir();
     player->movePlayer();
+    player->increasePlayerBody();
+    player->moveBody();
 
     if (gameMechs->getLoseFlagStatus()) {
         gameMechs->setExitTrue();
@@ -96,6 +99,7 @@ void DrawScreen(void) {
                         draw = symbol[i];
                     }
                 }
+
                 cout << draw;
             }
         }

@@ -99,3 +99,13 @@ void Player::increasePlayerBody() {
 objPosArrayList* Player::getPlayerBody() const {
     return playerPosList;  // Return the body list (head to tail)
 }
+void Player::moveBody() {
+    playerPosList[1].symbol = '=';
+    playerPosList->removeTail();
+}
+void Player::moveBodyincrease() {
+    playerPosList[1].symbol = '=';
+}
+int Player::getsize() {
+    return playerPosList->getSize();
+}

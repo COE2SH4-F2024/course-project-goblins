@@ -29,6 +29,9 @@ class Player {
     // More methods to be added here
     void increasePlayerBody();
     objPosArrayList* getPlayerBody() const;
+    void moveBody();
+    void moveBodyincrease();
+    int getsize();
 
    private:
     objPos* playerPos;  // Upgrade this in iteration 3.
