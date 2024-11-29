@@ -6,8 +6,9 @@ Player::Player(GameMechs* thisGMRef) {
     std::cout << "Player const: ";
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-
-    // more actions to be included
+    // first_body = new objPos;
+    // first_body->setObjPos(0, 0, '=');
+    //  more actions to be included
     playerPos = new objPos;
     playerPosList = new objPosArrayList;
     playerPos->setObjPos(1, 1, '@');
@@ -60,6 +61,8 @@ void Player::movePlayer() {
     // PPA3 Finite State Machine logic
     int x = playerPos->getObjPos()->pos->x;
     int y = playerPos->getObjPos()->pos->y;
+    // headx = x;
+    // heady = y;
 
     switch (myDir) {
         case UP:
@@ -89,22 +92,23 @@ void Player::movePlayer() {
         y = 1;
 
     playerPos->setObjPos(x, y, '@');
+    // first_body->setObjPos(headx, heady, '=');
 }
 
 // More methods to be added
 void Player::increasePlayerBody() {
-    playerPosList->insertHead(*playerPos->getObjPos());
+    playerPosList->insertHead(*first_body);
 }
 
 objPosArrayList* Player::getPlayerBody() const {
     return playerPosList;  // Return the body list (head to tail)
 }
 void Player::moveBody() {
-    playerPosList[1].symbol = '=';
+    playerPosList[1].setObjPos('=');
     playerPosList->removeTail();
 }
 void Player::moveBodyincrease() {
-    playerPosList[1].symbol = '=';
+    playerPosList[1].setObjPos('=');
 }
 int Player::getsize() {
     return playerPosList->getSize();
