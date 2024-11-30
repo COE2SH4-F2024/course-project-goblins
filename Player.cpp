@@ -12,7 +12,7 @@ Player::Player(GameMechs* thisGMRef) {
     playerPos = new objPos;
     playerPosList = new objPosArrayList;
     playerPos->setObjPos(1, 1, '@');
-    playerPosList->insertHead(*playerPos);
+    // playerPosList->insertHead(*playerPos);
     std::cout << "Success" << std::endl;
 }
 
@@ -104,11 +104,10 @@ objPosArrayList* Player::getPlayerBody() const {
     return playerPosList;  // Return the body list (head to tail)
 }
 void Player::moveBody() {
-    playerPosList[1].setObjPos('=');
-    playerPosList->removeTail();
+    playerPosList[0].setObjPos('o');
 }
-void Player::moveBodyincrease() {
-    playerPosList[1].setObjPos('=');
+void Player::cuttail() {
+    playerPosList->removeTail();
 }
 int Player::getsize() {
     return playerPosList->getSize();

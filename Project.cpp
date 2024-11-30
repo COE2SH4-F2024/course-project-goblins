@@ -63,17 +63,18 @@ void RunLogic(void) {
         gameMechs->setExitTrue();
     }
     player->updatePlayerDir();
-    player->movePlayer();
+
     if (player->getPlayerPos()->isPosEqual(food->getFoodPos())) {
         gameMechs->incrementScore();
         player->increasePlayerBody();
-        // player->moveBodyincrease();
-        //  food->generateFood(player->getPlayerBody());
-    }  // else {
-       //  player->increasePlayerBody();
-       //  player->moveBody();
-    // }
+        player->moveBody();
 
+    } else if (player->getsize() > 0) {
+        player->increasePlayerBody();
+        player->moveBody();
+        player->cuttail();
+    }
+    player->movePlayer();
     if (gameMechs->getLoseFlagStatus()) {
         gameMechs->setExitTrue();
     }
@@ -93,11 +94,11 @@ void DrawScreen(void) {
             if (x == 0 || y == 0 || x == gameMechs->getBoardSizeX() - 1 || y == gameMechs->getBoardSizeY() - 1) {
                 board[y][x] = '#';
             }
-            // for (int i = 0; i < player->getsize(); i++) {
-            // if (y == player->getPlayerBody()->getElement(i).getObjPos()->pos->y && x == player->getPlayerBody()->getElement(i).getObjPos()->pos->x) {
-            // board[y][x] = player->getPlayerBody()->getElement(i).getObjPos()->symbol;
-            //}
-            //}
+            for (int i = 0; i < player->getsize(); i++) {
+                if (y == player->getPlayerBody()->getElement(i).getObjPos()->pos->y && x == player->getPlayerBody()->getElement(i).getObjPos()->pos->x) {
+                    board[y][x] = 'o';
+                }
+            }
             if (x == player->getPlayerPos()->pos->x && y == player->getPlayerPos()->pos->y) {
                 board[y][x] = player->getPlayerPos()->symbol;
             }
@@ -112,7 +113,9 @@ void DrawScreen(void) {
         }
         cout << endl;
     }
-
+    for (int i = 0; i < player->getsize(); i++) {
+        cout << player->getPlayerBody()->getElement(i).getObjPos()->pos->y << ' ' << player->getPlayerBody()->getElement(i).getObjPos()->pos->x;
+    }
     cout << "Food location: " << food->getFoodPos()->getObjPos()->pos->x << ' ' << food->getFoodPos()->getObjPos()->pos->y << endl;
     cout << "Score: " << gameMechs->getScore() << endl;
     cout << "Press [Space] to quit." << endl;

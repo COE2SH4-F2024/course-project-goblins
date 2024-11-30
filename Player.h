@@ -30,7 +30,7 @@ class Player {
     void increasePlayerBody();
     objPosArrayList* getPlayerBody() const;
     void moveBody();
-    void moveBodyincrease();
+    void cuttail();
     int getsize();
 
    private:
