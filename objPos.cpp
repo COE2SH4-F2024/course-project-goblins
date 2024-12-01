@@ -85,3 +85,6 @@ objPos& objPos::operator=(const objPos& other) {
     }
     return *this;
 }
+void objPos::printobjPos() {
+    std::cout << "x: " << pos->x << " y: " << pos->y << std::endl;
+}

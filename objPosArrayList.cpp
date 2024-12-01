@@ -8,11 +8,11 @@
 // Paste your Tested implementation here.
 
 objPosArrayList::objPosArrayList() {
-    // std::cout << "objPosArrayList const: ";
+    std::cout << "objPosArrayList const: ";
     arrayCapacity = ARRAY_MAX_CAP;
     listSize = 0;
     aList = new objPos[arrayCapacity];
-    // std::cout << "Success" << std::endl;
+    std::cout << "Success" << std::endl;
 }
 
 objPosArrayList::~objPosArrayList() {
@@ -62,5 +62,7 @@ objPos objPosArrayList::getTailElement() const {
 }
 
 objPos objPosArrayList::getElement(int index) const {
-    return (index >= 0 && index < listSize) ? aList[index] : objPos();
+    if (index >= 0 && index < listSize) {
+        return aList[index];
+    }
 }

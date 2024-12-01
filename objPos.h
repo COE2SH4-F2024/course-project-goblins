@@ -31,6 +31,8 @@ class objPos {
     bool isPosEqual(const objPos* refPos) const;
     objPos(const objPos& other);
     objPos& operator=(const objPos& other);
+
+    void printobjPos();
 };
 
 #endif

@@ -13,7 +13,6 @@ using namespace std;
 GameMechs* gameMechs;
 Player* player;
 Food* food;
-objPos* printPointer;
 
 void Initialize(void);
 void GetInput(void);
@@ -42,13 +41,12 @@ void Initialize(void) {
     gameMechs = new GameMechs(30, 15);
     player = new Player(gameMechs);
     food = new Food(gameMechs);
-    printPointer = new objPos;
 
     food->generateFood(player->getPlayerBody());
 
-    // MacUILib_Delay(2000000);
+    MacUILib_Delay(1500000);
     //  gameMechs->incrementScore();
-    // MacUILib_clearScreen();
+    cout << "\033[2J\033[1;1H";
 }
 
 void GetInput(void) {
@@ -62,19 +60,25 @@ void RunLogic(void) {
     if (gameMechs->getInput() == ' ') {
         gameMechs->setExitTrue();
     }
+
     player->updatePlayerDir();
 
     if (player->getPlayerPos()->isPosEqual(food->getFoodPos())) {
+        // if player ate food
         gameMechs->incrementScore();
         player->increasePlayerBody();
         player->moveBody();
+        food->generateFood(player->getPlayerBody());
 
     } else if (player->getsize() > 0) {
+        // if player did not ate food
         player->increasePlayerBody();
         player->moveBody();
         player->cuttail();
     }
+
     player->movePlayer();
+
     if (gameMechs->getLoseFlagStatus()) {
         gameMechs->setExitTrue();
     }
@@ -113,12 +117,27 @@ void DrawScreen(void) {
         }
         cout << endl;
     }
-    for (int i = 0; i < player->getsize(); i++) {
-        cout << player->getPlayerBody()->getElement(i).getObjPos()->pos->y << ' ' << player->getPlayerBody()->getElement(i).getObjPos()->pos->x;
-    }
-    cout << "Food location: " << food->getFoodPos()->getObjPos()->pos->x << ' ' << food->getFoodPos()->getObjPos()->pos->y << endl;
+
+    cout << endl;
+
     cout << "Score: " << gameMechs->getScore() << endl;
     cout << "Press [Space] to quit." << endl;
+    cout << endl;
+
+    cout << "debug info: " << endl;
+    cout << "Player: '@'; Position: ";
+    player->getPlayerPos()->printobjPos();
+    cout << endl;
+    cout << "Food: '*'; Position: ";
+    food->getFoodPos()->printobjPos();
+    cout << endl;
+
+    cout << "Body: 'o'; Position(s): " << endl;
+    for (int i = 0; i < player->getsize(); i++) {
+        cout << "Body part " << i;
+        cout << "x: " << player->getPlayerBody()->getElement(i).getObjPos()->pos->x << " y: " << player->getPlayerBody()->getElement(i).getObjPos()->pos->y;
+        cout << endl;
+    }
 }
 
 void LoopDelay(void) {
@@ -129,6 +148,5 @@ void CleanUp(void) {
     delete gameMechs;
     delete player;
     delete food;
-    delete printPointer;
     MacUILib_uninit();
 }

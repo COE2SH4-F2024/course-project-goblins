@@ -23,17 +23,18 @@ Food::~Food() {
 void Food::generateFood(objPosArrayList* snakeBody) {
     bool isValid = false;
     int x, y;
-    // while (!isValid) {
-    x = rand() % (mainGameMechsRef->getBoardSizeX() - 2);
-    y = rand() % (mainGameMechsRef->getBoardSizeY() - 2);
-    isValid = true;
-    for (int i = 0; i < snakeBody->getSize(); ++i) {
-        if (snakeBody->getElement(i).isPosEqual(foodPos)) {
-            isValid = false;
-            break;
+    int size = snakeBody->getSize();
+    while (!isValid) {
+        x = rand() % (mainGameMechsRef->getBoardSizeX() - 2);
+        y = rand() % (mainGameMechsRef->getBoardSizeY() - 2);
+        isValid = true;
+        for (int i = 0; i < size; ++i) {
+            if (y == snakeBody->getElement(i).getObjPos()->pos->y && x == snakeBody->getElement(i).getObjPos()->pos->x) {
+                isValid = false;
+                break;
+            }
         }
     }
-    // }
     foodPos->setObjPos(++x, ++y, '*');
 }
 
