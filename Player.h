@@ -22,19 +22,19 @@ class Player {
     Player(GameMechs* thisGMRef);
     ~Player();
 
-    objPos* getPlayerPos() const;  // Upgrade this in iteration 3.
+    objPos* getHearPos() const;  // Upgrade this in iteration 3.
     void updatePlayerDir();
     void movePlayer();
 
     // More methods to be added here
-    void increasePlayerBody();
     objPosArrayList* getPlayerBody() const;
     void moveBody();
     void cuttail();
     int getsize();
+    void selfCollisionCheck();
 
    private:
-    objPos* playerPos;  // Upgrade this in iteration 3.
+    // objPos* playerPos;  // Upgrade this in iteration 3.
 
     enum Dir myDir;
     objPosArrayList* playerPosList;

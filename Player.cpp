@@ -6,25 +6,21 @@ Player::Player(GameMechs* thisGMRef) {
     std::cout << "Player const: ";
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-    // first_body = new objPos;
-    // first_body->setObjPos(0, 0, '=');
     //  more actions to be included
-    playerPos = new objPos;
     playerPosList = new objPosArrayList;
-    playerPos->setObjPos(1, 1, '@');
-    // playerPosList->insertHead(*playerPos);
+    playerPosList->insertHead(objPos(1, 1, '@'));
     std::cout << "Success" << std::endl;
 }
 
 Player::~Player() {
     // delete any heap members here
-    delete playerPos;
+    // delete playerPos;
     delete playerPosList;
 }
 
-objPos* Player::getPlayerPos() const {
+objPos* Player::getHearPos() const {
     // return the reference to the playerPos arrray list
-    return playerPos;
+    return playerPosList->getHeadElement().getObjPos();
 }
 
 void Player::updatePlayerDir() {
@@ -59,10 +55,8 @@ void Player::updatePlayerDir() {
 
 void Player::movePlayer() {
     // PPA3 Finite State Machine logic
-    int x = playerPos->getObjPos()->pos->x;
-    int y = playerPos->getObjPos()->pos->y;
-    // headx = x;
-    // heady = y;
+    int x = playerPosList->getHeadElement().getObjPos()->pos->x;
+    int y = playerPosList->getHeadElement().getObjPos()->pos->y;
 
     switch (myDir) {
         case UP:
@@ -91,24 +85,22 @@ void Player::movePlayer() {
     if (y >= (mainGameMechsRef->getBoardSizeY() - 1))
         y = 1;
 
-    playerPos->setObjPos(x, y, '@');
-    // first_body->setObjPos(headx, heady, '=');
+    playerPosList->insertHead(objPos(x, y, '@'));
 }
 
 // More methods to be added
-void Player::increasePlayerBody() {
-    playerPosList->insertHead(*playerPos);
-}
-
 objPosArrayList* Player::getPlayerBody() const {
     return playerPosList;  // Return the body list (head to tail)
 }
 void Player::moveBody() {
-    playerPosList[0].setObjPos('o');
+    playerPosList->getHeadElement().setObjPos('o');
 }
 void Player::cuttail() {
     playerPosList->removeTail();
 }
 int Player::getsize() {
     return playerPosList->getSize();
+}
+
+void Player::selfCollisionCheck() {
 }

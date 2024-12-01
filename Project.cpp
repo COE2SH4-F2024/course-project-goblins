@@ -63,16 +63,16 @@ void RunLogic(void) {
 
     player->updatePlayerDir();
 
-    if (player->getPlayerPos()->isPosEqual(food->getFoodPos())) {
+    if (player->getHearPos()->isPosEqual(food->getFoodPos())) {
         // if player ate food
         gameMechs->incrementScore();
-        player->increasePlayerBody();
+        // player->increasePlayerBody();
         player->moveBody();
         food->generateFood(player->getPlayerBody());
 
     } else if (player->getsize() > 0) {
         // if player did not ate food
-        player->increasePlayerBody();
+        // player->increasePlayerBody();
         player->moveBody();
         player->cuttail();
     }
@@ -103,8 +103,8 @@ void DrawScreen(void) {
                     board[y][x] = 'o';
                 }
             }
-            if (x == player->getPlayerPos()->pos->x && y == player->getPlayerPos()->pos->y) {
-                board[y][x] = player->getPlayerPos()->symbol;
+            if (x == player->getHearPos()->pos->x && y == player->getHearPos()->pos->y) {
+                board[y][x] = player->getHearPos()->symbol;
             }
             if (y == food->getFoodPos()->pos->y && x == food->getFoodPos()->pos->x) {
                 board[y][x] = food->getFoodPos()->symbol;
@@ -126,16 +126,16 @@ void DrawScreen(void) {
 
     cout << "debug info: " << endl;
     cout << "Player: '@'; Position: ";
-    player->getPlayerPos()->printobjPos();
+    player->getHearPos()->printobjPos();
     cout << endl;
     cout << "Food: '*'; Position: ";
     food->getFoodPos()->printobjPos();
     cout << endl;
 
-    cout << "Body: 'o'; Position(s): " << endl;
+    cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " Position(s): " << endl;
     for (int i = 0; i < player->getsize(); i++) {
         cout << "Body part " << i;
-        cout << "x: " << player->getPlayerBody()->getElement(i).getObjPos()->pos->x << " y: " << player->getPlayerBody()->getElement(i).getObjPos()->pos->y;
+        cout << " x: " << player->getPlayerBody()->getElement(i).getObjPos()->pos->x << " y: " << player->getPlayerBody()->getElement(i).getObjPos()->pos->y;
         cout << endl;
     }
 }
