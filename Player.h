@@ -35,7 +35,7 @@ class Player {
 
    private:
     objPos* playerPos;  // Upgrade this in iteration 3.
-    objPos* first_body;
+
     enum Dir myDir;
     objPosArrayList* playerPosList;
     int headx, heady;

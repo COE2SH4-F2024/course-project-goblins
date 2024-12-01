@@ -83,12 +83,12 @@ void Player::movePlayer() {
 
     // Wrap-around logic
     if (x < 1)
-        x = mainGameMechsRef->getBoardSizeX() - 1;
-    if (x >= mainGameMechsRef->getBoardSizeX())
+        x = mainGameMechsRef->getBoardSizeX() - 2;
+    if (x >= (mainGameMechsRef->getBoardSizeX() - 1))
         x = 1;
     if (y < 1)
-        y = mainGameMechsRef->getBoardSizeY() - 1;
-    if (y >= mainGameMechsRef->getBoardSizeY())
+        y = mainGameMechsRef->getBoardSizeY() - 2;
+    if (y >= (mainGameMechsRef->getBoardSizeY() - 1))
         y = 1;
 
     playerPos->setObjPos(x, y, '@');
@@ -97,7 +97,7 @@ void Player::movePlayer() {
 
 // More methods to be added
 void Player::increasePlayerBody() {
-    playerPosList->insertHead(*first_body);
+    playerPosList->insertHead(*playerPos);
 }
 
 objPosArrayList* Player::getPlayerBody() const {
