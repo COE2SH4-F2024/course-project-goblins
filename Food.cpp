@@ -21,21 +21,23 @@ Food::~Food() {
 }
 
 void Food::generateFood(objPosArrayList* snakeBody) {
-    bool isValid = false;
+    bool isValid = true;
     int x, y;
     int size = snakeBody->getSize();
-    while (!isValid) {
+    do {
+        isValid = true;
         x = rand() % (mainGameMechsRef->getBoardSizeX() - 2);
         y = rand() % (mainGameMechsRef->getBoardSizeY() - 2);
-        isValid = true;
+        ++x;
+        ++y;
         for (int i = 0; i < size; ++i) {
             if (y == snakeBody->getElement(i).getObjPos()->pos->y && x == snakeBody->getElement(i).getObjPos()->pos->x) {
                 isValid = false;
                 break;
             }
         }
-    }
-    foodPos->setObjPos(++x, ++y, '*');
+    } while (!isValid);
+    foodPos->setObjPos(x, y, '*');
 }
 
 objPos* Food::getFoodPos() const {

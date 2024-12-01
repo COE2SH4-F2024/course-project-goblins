@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 
 #include "GameMechs.h"
@@ -62,7 +63,7 @@ void RunLogic(void) {
 
     player->updatePlayerDir();
 
-    if (player->getHearPos()->isPosEqual(food->getFoodPos())) {
+    if (player->getHearPos()->isPosEqual(food->getFoodPos()) || gameMechs->getInput() == 't') {
         // if player ate food
         gameMechs->incrementScore();
         food->generateFood(player->getPlayerBody());
@@ -133,8 +134,8 @@ void DrawScreen(void) {
     food->getFoodPos()->printobjPos();
     cout << endl;
 
-    cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " Position(s): " << endl;
-    for (int i = 0; i < player->getsize(); i++) {
+    cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " First 10 Position(s): " << endl;
+    for (int i = 0; i < min(player->getsize(), 10); i++) {
         cout << "Body part " << i << ' ';
         player->getPlayerBody()->getElement(i).getObjPos()->printobjPos();
     }
