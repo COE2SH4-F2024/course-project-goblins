@@ -28,7 +28,6 @@ class Player {
 
     // More methods to be added here
     objPosArrayList* getPlayerBody() const;
-    void moveBody();
     void cuttail();
     int getsize();
     void selfCollisionCheck();

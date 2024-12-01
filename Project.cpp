@@ -66,14 +66,10 @@ void RunLogic(void) {
     if (player->getHearPos()->isPosEqual(food->getFoodPos())) {
         // if player ate food
         gameMechs->incrementScore();
-        // player->increasePlayerBody();
-        player->moveBody();
         food->generateFood(player->getPlayerBody());
 
     } else if (player->getsize() > 0) {
         // if player did not ate food
-        // player->increasePlayerBody();
-        player->moveBody();
         player->cuttail();
     }
 

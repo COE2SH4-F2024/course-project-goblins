@@ -85,15 +85,13 @@ void Player::movePlayer() {
     if (y >= (mainGameMechsRef->getBoardSizeY() - 1))
         y = 1;
 
+    playerPosList->getHeadElement().setObjPos('o');
     playerPosList->insertHead(objPos(x, y, '@'));
 }
 
 // More methods to be added
 objPosArrayList* Player::getPlayerBody() const {
     return playerPosList;  // Return the body list (head to tail)
-}
-void Player::moveBody() {
-    playerPosList->getHeadElement().setObjPos('o');
 }
 void Player::cuttail() {
     playerPosList->removeTail();
