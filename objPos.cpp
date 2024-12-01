@@ -43,6 +43,8 @@ void objPos::setObjPos(int xPos, int yPos, char sym) {
     symbol = sym;
 }
 void objPos::setObjPos(char sym) {
+    pos->x = 1;
+    pos->y = 1;
     symbol = sym;
 }
 objPos* objPos::getObjPos() const {
@@ -68,6 +70,8 @@ char objPos::getSymbolIfPosEqual(const objPos* refPos) const {
     else
         return 0;
 }
+
+// rule of six
 objPos::objPos(const objPos& other) {
     pos = new Pos;  // Allocate new memory
     pos->x = other.pos->x;
@@ -85,6 +89,8 @@ objPos& objPos::operator=(const objPos& other) {
     }
     return *this;
 }
+
+// debug print
 void objPos::printobjPos() {
-    std::cout << "x: " << pos->x << " y: " << pos->y << std::endl;
+    std::cout << "x: " << pos->x << " y: " << pos->y << " sym: " << symbol << std::endl;
 }

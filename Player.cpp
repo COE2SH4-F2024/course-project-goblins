@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include <iostream>
+#include <set>
 
 Player::Player(GameMechs* thisGMRef) {
     std::cout << "Player const: ";
@@ -57,7 +58,10 @@ void Player::movePlayer() {
     // PPA3 Finite State Machine logic
     int x = playerPosList->getHeadElement().getObjPos()->pos->x;
     int y = playerPosList->getHeadElement().getObjPos()->pos->y;
-
+    if (playerPosList->getSize() > 0) {
+        playerPosList->removeHead();
+        playerPosList->insertHead(objPos(x, y, 'O'));
+    }
     switch (myDir) {
         case UP:
             y -= 1;
@@ -85,7 +89,6 @@ void Player::movePlayer() {
     if (y >= (mainGameMechsRef->getBoardSizeY() - 1))
         y = 1;
 
-    playerPosList->getHeadElement().setObjPos('o');
     playerPosList->insertHead(objPos(x, y, '@'));
 }
 
@@ -101,4 +104,10 @@ int Player::getsize() {
 }
 
 void Player::selfCollisionCheck() {
+    int size = playerPosList->getSize();
+    for (int i = 2; i < size; ++i) {
+        if (playerPosList->getElement(i).isPosEqual(playerPosList->getHeadElement().getObjPos())) {
+            mainGameMechsRef->setLoseFlag();
+        }
+    }
 }

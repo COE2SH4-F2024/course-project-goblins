@@ -57,9 +57,8 @@ void GetInput(void) {
 }
 
 void RunLogic(void) {
-    if (gameMechs->getInput() == ' ') {
+    if (gameMechs->getInput() == ' ')
         gameMechs->setExitTrue();
-    }
 
     player->updatePlayerDir();
 
@@ -72,12 +71,13 @@ void RunLogic(void) {
         // if player did not ate food
         player->cuttail();
     }
-
     player->movePlayer();
 
-    if (gameMechs->getLoseFlagStatus()) {
+    player->selfCollisionCheck();
+
+    if (gameMechs->getLoseFlagStatus())
         gameMechs->setExitTrue();
-    }
+
     gameMechs->clearInput();
 }
 
@@ -96,7 +96,7 @@ void DrawScreen(void) {
             }
             for (int i = 0; i < player->getsize(); i++) {
                 if (y == player->getPlayerBody()->getElement(i).getObjPos()->pos->y && x == player->getPlayerBody()->getElement(i).getObjPos()->pos->x) {
-                    board[y][x] = 'o';
+                    board[y][x] = player->getPlayerBody()->getElement(i).getSymbol();
                 }
             }
             if (x == player->getHearPos()->pos->x && y == player->getHearPos()->pos->y) {
@@ -113,6 +113,11 @@ void DrawScreen(void) {
         }
         cout << endl;
     }
+    if (gameMechs->getLoseFlagStatus())
+        cout << "You Lost" << endl;
+
+    if (gameMechs->getExitFlagStatus())
+        cout << "Game terminated" << endl;
 
     cout << endl;
 
@@ -121,18 +126,17 @@ void DrawScreen(void) {
     cout << endl;
 
     cout << "debug info: " << endl;
-    cout << "Player: '@'; Position: ";
+    cout << "Player Position: ";
     player->getHearPos()->printobjPos();
     cout << endl;
-    cout << "Food: '*'; Position: ";
+    cout << "Food Position: ";
     food->getFoodPos()->printobjPos();
     cout << endl;
 
     cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " Position(s): " << endl;
     for (int i = 0; i < player->getsize(); i++) {
-        cout << "Body part " << i;
-        cout << " x: " << player->getPlayerBody()->getElement(i).getObjPos()->pos->x << " y: " << player->getPlayerBody()->getElement(i).getObjPos()->pos->y;
-        cout << endl;
+        cout << "Body part " << i << ' ';
+        player->getPlayerBody()->getElement(i).getObjPos()->printobjPos();
     }
 }
 
