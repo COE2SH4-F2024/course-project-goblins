@@ -80,7 +80,7 @@ void RunLogic(void) {
                 switch (food->getFoodPos()->getElement(i).getSymbol()) {
                     case 'S':  // Shrink
                         for (int j = 0; j < 5; ++j) {
-                            if (player->getPlayerBody()->getSize() > 1) {
+                            if (player->getPlayerBody()->getSize() > 3) {
                                 player->getPlayerBody()->removeTail();
                             }
                         }
@@ -192,6 +192,12 @@ void DrawScreen(void) {
         cout << endl;
     }
 
+    if (player->getPlayerBody()->getSize() >= 200) {
+        cout << "\033[1;39m" << "You Win" << "\033[0m" << endl;
+    } else {
+        cout << endl;
+    }
+
     if (gameMechs->getExitFlagStatus()) {
         cout << "\033[1;33m" << "Game terminated" << "\033[0m" << endl;
     } else {
@@ -200,7 +206,8 @@ void DrawScreen(void) {
 
     cout << endl;
 
-    cout << "Score: " << gameMechs->getScore() << "     " << endl
+    cout << "Score: \033[1;32m" << gameMechs->getScore() << "\033[0m     " << endl
+         << "Body Length: " << player->getPlayerBody()->getSize() << endl
          << "Use WASD for control of the snake" << "     " << endl
          << "\033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
          << "Press [Space] to quit." << "     " << endl
