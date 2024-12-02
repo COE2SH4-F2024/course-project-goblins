@@ -10,7 +10,10 @@
 using namespace std;
 
 #define DELAY_CONST 100000
-#define DEBUGINFO 1
+#define DEBUGINFO 0
+
+// vSync is hard coded
+#define DISPLAYMETHOD 1  // 1 for MacLib_cleanscreen; 2 for escape code clean screen; 3 for no clean screen
 
 GameMechs* gameMechs;
 Player* player;
@@ -207,10 +210,20 @@ void DrawScreen(void) {
         boardString += '\n';
     }
     // Print at once
-    // MacUILib_clearScreen();
-    // cout << "\033[2J\033[1;1H";
-    // cout << "\033[H" << boardString;
-    cout << boardString;
+    switch (DISPLAYMETHOD) {
+        case 1:
+            MacUILib_clearScreen();
+            break;
+        case 2:
+            cout << "\033[2J\033[1;1H";
+            break;
+        case 3:
+            break;
+        default:
+            MacUILib_clearScreen();
+            break;
+    }
+    cout << "\033[H" << boardString;
 
     // Game info
     if (gameMechs->getLoseFlagStatus()) {
@@ -257,7 +270,7 @@ void DrawScreen(void) {
             cout << "Body part " << i << ' ';
             player->getPlayerBody()->getElement(i).printobjPos();
         }
-        cout << "\033[2J\033[1;1H";
+        // cout << "\033[2J\033[1;1H";
     }
 }
 
