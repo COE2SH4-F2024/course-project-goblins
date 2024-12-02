@@ -110,12 +110,28 @@ void DrawScreen(void) {
     }
     for (int y = 0; y < gameMechs->getBoardSizeY(); ++y) {
         for (int x = 0; x < gameMechs->getBoardSizeX(); ++x) {
-            cout << board[y][x];
+            switch (board[y][x]) {
+                case '#':
+                    cout << "\033[1;37m" << board[y][x] << "\033[0m";
+                    break;
+                case 'O':
+                    cout << "\033[1;32m" << board[y][x] << "\033[0m";
+                    break;
+                case '@':
+                    cout << "\033[1;92m" << board[y][x] << "\033[0m";
+                    break;
+                case '*':
+                    cout << "\033[1;31m" << board[y][x] << "\033[0m";
+                    break;
+                default:
+                    cout << board[y][x];
+                    break;
+            }
         }
         cout << endl;
     }
     if (gameMechs->getLoseFlagStatus())
-        cout << "You Lost" << endl;
+        cout << "\033[1;31m" << "You Lost" << "\033[0m" << endl;
 
     if (gameMechs->getExitFlagStatus())
         cout << "Game terminated" << endl;
