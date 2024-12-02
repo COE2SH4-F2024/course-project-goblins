@@ -5,18 +5,22 @@
 #include "GameMechs.h"
 #include "objPosArrayList.h"
 
-// Do I even need a defult constractor?
+Food::Food() {
+    foodPosList = new objPosArrayList;
+    foodPosList->insertHead(objPos(1, 1, '*'));
+}
+
 Food::Food(GameMechs* thisGMRef) {
     // std::cout << "Food const: ";
     mainGameMechsRef = thisGMRef;
-    foodPos = new objPos;
+    // foodPos = new objPos;
     foodPosList = new objPosArrayList;
     foodPosList->insertHead(objPos(1, 1, '*'));
     // std::cout << "Success" << std::endl;
 }
 
 Food::~Food() {
-    delete foodPos;
+    // delete foodPos;
     delete foodPosList;
     delete mainGameMechsRef;
 }
@@ -35,14 +39,17 @@ void Food::generateFood(objPosArrayList* snakeBody, int def) {
         y = rand() % (mainGameMechsRef->getBoardSizeY() - 2);
         ++x;
         ++y;
+        objPos tempPos = objPos(x, y, '*');
         for (int i = 0; i < bodySize; ++i) {
-            if (y == snakeBody->getElement(i).getObjPos().pos->y && x == snakeBody->getElement(i).getObjPos().pos->x) {
+            objPos genFood = snakeBody->getElement(i);
+            if (tempPos.isPosEqual(&genFood)) {
                 isValid = false;
                 break;
             }
         }
         for (int i = 0; i < foodSize; ++i) {
-            if (y == foodPosList->getElement(i).getObjPos().pos->y && x == foodPosList->getElement(i).getObjPos().pos->x) {
+            objPos genFood = foodPosList->getElement(i);
+            if (tempPos.isPosEqual(&genFood)) {
                 isValid = false;
                 break;
             }

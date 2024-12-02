@@ -12,6 +12,7 @@ class Food {
     objPosArrayList* foodPosList;
 
    public:
+    Food();
     Food(GameMechs* thisGMRef);
     ~Food();
     void generateFood(objPosArrayList* snakeBody, int def);

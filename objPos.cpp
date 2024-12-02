@@ -42,11 +42,6 @@ void objPos::setObjPos(int xPos, int yPos, char sym) {
     pos->y = yPos;
     symbol = sym;
 }
-void objPos::setObjPos(char sym) {
-    pos->x = 1;
-    pos->y = 1;
-    symbol = sym;
-}
 
 objPos objPos::getObjPos() const {
     objPos returnPos;
@@ -72,7 +67,7 @@ char objPos::getSymbolIfPosEqual(const objPos* refPos) const {
         return 0;
 }
 
-// rule of six
+// min 0f four
 objPos::objPos(const objPos& other) {
     pos = new Pos;  // Allocate new memory
     pos->x = other.pos->x;
@@ -81,9 +76,6 @@ objPos::objPos(const objPos& other) {
 }
 objPos& objPos::operator=(const objPos& other) {
     if (this != &other) {
-        delete pos;  // Free existing memory
-
-        pos = new Pos;  // Allocate new memory
         pos->x = other.pos->x;
         pos->y = other.pos->y;
         symbol = other.symbol;
