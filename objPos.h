@@ -26,7 +26,7 @@ class objPos {
     void setObjPos(int xPos, int yPos, char sym);
     void setObjPos(char sym);
 
-    objPos* getObjPos() const;
+    objPos getObjPos() const;
     char getSymbol() const;
     char getSymbolIfPosEqual(const objPos* refPos) const;
 

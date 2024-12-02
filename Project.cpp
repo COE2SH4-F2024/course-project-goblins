@@ -71,7 +71,8 @@ void RunLogic(void) {
     player->updatePlayerDir();
 
     for (int i = 0; i < food->getFoodPos()->getSize(); ++i) {
-        if (player->getHearPos()->isPosEqual(food->getFoodPos()->getElement(i).getObjPos()) || gameMechs->getInput() == 't') {
+        objPos foodPos = food->getFoodPos()->getElement(i);
+        if (player->getHearPos().isPosEqual(&foodPos) || gameMechs->getInput() == 't') {
             // if player ate food
             gameMechs->incrementScore();
             int foodtype = 1;
@@ -135,17 +136,17 @@ void DrawScreen(void) {
             }
 
             for (int i = 0; i < food->getFoodPos()->getSize(); i++) {
-                if (y == food->getFoodPos()->getElement(i).getObjPos()->pos->y && x == food->getFoodPos()->getElement(i).getObjPos()->pos->x) {
+                if (y == food->getFoodPos()->getElement(i).getObjPos().pos->y && x == food->getFoodPos()->getElement(i).getObjPos().pos->x) {
                     board[y][x] = food->getFoodPos()->getElement(i).getSymbol();
                 }
             }
             for (int i = 0; i < player->getsize(); i++) {
-                if (y == player->getPlayerBody()->getElement(i).getObjPos()->pos->y && x == player->getPlayerBody()->getElement(i).getObjPos()->pos->x) {
+                if (y == player->getPlayerBody()->getElement(i).getObjPos().pos->y && x == player->getPlayerBody()->getElement(i).getObjPos().pos->x) {
                     board[y][x] = player->getPlayerBody()->getElement(i).getSymbol();
                 }
             }
-            if (x == player->getHearPos()->pos->x && y == player->getHearPos()->pos->y) {
-                board[y][x] = player->getHearPos()->symbol;
+            if (x == player->getHearPos().pos->x && y == player->getHearPos().pos->y) {
+                board[y][x] = player->getHearPos().symbol;
             }
         }
     }

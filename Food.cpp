@@ -36,13 +36,13 @@ void Food::generateFood(objPosArrayList* snakeBody, int def) {
         ++x;
         ++y;
         for (int i = 0; i < bodySize; ++i) {
-            if (y == snakeBody->getElement(i).getObjPos()->pos->y && x == snakeBody->getElement(i).getObjPos()->pos->x) {
+            if (y == snakeBody->getElement(i).getObjPos().pos->y && x == snakeBody->getElement(i).getObjPos().pos->x) {
                 isValid = false;
                 break;
             }
         }
         for (int i = 0; i < foodSize; ++i) {
-            if (y == foodPosList->getElement(i).getObjPos()->pos->y && x == foodPosList->getElement(i).getObjPos()->pos->x) {
+            if (y == foodPosList->getElement(i).getObjPos().pos->y && x == foodPosList->getElement(i).getObjPos().pos->x) {
                 isValid = false;
                 break;
             }

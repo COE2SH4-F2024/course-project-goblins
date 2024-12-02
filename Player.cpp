@@ -19,7 +19,7 @@ Player::~Player() {
     delete playerPosList;
 }
 
-objPos* Player::getHearPos() const {
+objPos Player::getHearPos() const {
     // return the reference to the playerPos arrray list
     return playerPosList->getHeadElement().getObjPos();
 }
@@ -56,8 +56,8 @@ void Player::updatePlayerDir() {
 
 void Player::movePlayer() {
     // PPA3 Finite State Machine logic
-    int x = playerPosList->getHeadElement().getObjPos()->pos->x;
-    int y = playerPosList->getHeadElement().getObjPos()->pos->y;
+    int x = playerPosList->getHeadElement().getObjPos().pos->x;
+    int y = playerPosList->getHeadElement().getObjPos().pos->y;
 
     if (myDir == STOP) {
         return;
@@ -112,14 +112,15 @@ int Player::getsize() {
 void Player::selfCollisionCheck() {
     int size = playerPosList->getSize();
     for (int i = 2; i < size; ++i) {
-        if (playerPosList->getElement(i).isPosEqual(playerPosList->getHeadElement().getObjPos())) {
+        objPos bodyPos = playerPosList->getElement(i);
+        if (playerPosList->getHeadElement().isPosEqual(&bodyPos)) {
             mainGameMechsRef->setLoseFlag();
         }
     }
 }
 
 void Player::addMoreTail() {
-    int x = playerPosList->getTailElement().getObjPos()->pos->x;
-    int y = playerPosList->getTailElement().getObjPos()->pos->y;
+    int x = playerPosList->getTailElement().getObjPos().pos->x;
+    int y = playerPosList->getTailElement().getObjPos().pos->y;
     playerPosList->insertTail(objPos(x, y, 'O'));
 }

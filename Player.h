@@ -22,7 +22,7 @@ class Player {
     Player(GameMechs* thisGMRef);
     ~Player();
 
-    objPos* getHearPos() const;  // Upgrade this in iteration 3.
+    objPos getHearPos() const;  // Upgrade this in iteration 3.
     void updatePlayerDir();
     void movePlayer();
 

@@ -47,11 +47,12 @@ void objPos::setObjPos(char sym) {
     pos->y = 1;
     symbol = sym;
 }
-objPos* objPos::getObjPos() const {
-    objPos* returnPos = new objPos();
-    returnPos->pos->x = pos->x;
-    returnPos->pos->y = pos->y;
-    returnPos->symbol = symbol;
+
+objPos objPos::getObjPos() const {
+    objPos returnPos;
+    returnPos.pos->x = pos->x;
+    returnPos.pos->y = pos->y;
+    returnPos.symbol = symbol;
 
     return returnPos;
 }
