@@ -120,7 +120,5 @@ void Player::selfCollisionCheck() {
 }
 
 void Player::addMoreTail() {
-    int x = playerPosList->getTailElement().getObjPos().pos->x;
-    int y = playerPosList->getTailElement().getObjPos().pos->y;
-    playerPosList->insertTail(objPos(x, y, 'O'));
+    playerPosList->insertTail(playerPosList->getTailElement());
 }

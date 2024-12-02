@@ -43,6 +43,7 @@ void Initialize(void) {
     player = new Player(gameMechs);
     food = new Food(gameMechs);
 
+    // populate food
     for (int i = 0; i < 2; ++i)
         food->generateFood(player->getPlayerBody(), 1);
 
@@ -52,6 +53,7 @@ void Initialize(void) {
     // MacUILib_Delay(1500000);
     //  gameMechs->incrementScore();
     // cout << "\033[2J\033[1;1H";
+
     // hide cursor
     cout << "\033[?25l";
 }
@@ -66,6 +68,8 @@ void GetInput(void) {
 void RunLogic(void) {
     bool didEatfood = false;
     char input;
+
+    // Get function input
     input = gameMechs->getInput();
     if (input == 'o') {
         gameMechs->DecreaseDelay();
@@ -73,17 +77,22 @@ void RunLogic(void) {
     if (input == 'p') {
         gameMechs->IncreaseDelay();
     }
-    if (gameMechs->getInput() == ' ')
+    if (input == ' ') {
         gameMechs->setExitTrue();
+    }
 
+    // update player direction
     player->updatePlayerDir();
 
+    // Food Collision Check
     for (int i = 0; i < food->getFoodPos()->getSize(); ++i) {
         objPos foodPos = food->getFoodPos()->getElement(i);
         if (player->getHearPos().isPosEqual(&foodPos) || gameMechs->getInput() == 't') {
             // if player ate food
             gameMechs->incrementScore();
             int foodtype = 1;
+            // special food
+            // if had more time we would write this inside of the food function
             if (food->getFoodPos()->getElement(i).getSymbol() != '*') {
                 foodtype = 0;
                 switch (food->getFoodPos()->getElement(i).getSymbol()) {
@@ -109,19 +118,25 @@ void RunLogic(void) {
                         break;
                 }
             }
+            // generate new food according the type eaten
             food->getFoodPos()->removeAtIndex(i);
             food->generateFood(player->getPlayerBody(), foodtype);
             didEatfood = true;
         }
     }
+    // if not eat any food, cut one body
     if (player->getsize() > 0 && !didEatfood) {
         // if player did not ate food
         player->cuttail();
     }
+
+    // update player location
     player->movePlayer();
 
+    // self collision check
     player->selfCollisionCheck();
 
+    // set game ending condition
     if (gameMechs->getLoseFlagStatus() || player->getPlayerBody()->getSize() >= 200)
         gameMechs->setExitTrue();
 
@@ -192,9 +207,11 @@ void DrawScreen(void) {
         boardString += '\n';
     }
     // Print at once
+    // MacUILib_clearScreen();
     // cout << "\033[2J\033[1;1H";
     cout << "\033[H" << boardString;
 
+    // Game info
     if (gameMechs->getLoseFlagStatus()) {
         cout << "\033[1;31m" << "game over!" << "\033[0m" << endl;
     } else {
@@ -224,6 +241,7 @@ void DrawScreen(void) {
          << "Press [Space] to quit." << "     " << endl
          << endl;
 
+    // Debug printer
     // cout << "debug info: " << "     " << endl
     //      << "t to simulate eating food" << "     " << endl
     //      << "Player Position: ";

@@ -31,15 +31,15 @@ void Food::generateFood(objPosArrayList* snakeBody, int def) {
     int bodySize = snakeBody->getSize();
     int foodSize = foodPosList->getSize();
     if (foodSize > 5) {
+        // If there are already 5 food, do not generate more food
         return;
     }
     do {
         isValid = true;
-        x = rand() % (mainGameMechsRef->getBoardSizeX() - 2);
-        y = rand() % (mainGameMechsRef->getBoardSizeY() - 2);
-        ++x;
-        ++y;
+        x = rand() % (mainGameMechsRef->getBoardSizeX() - 2) + 1;
+        y = rand() % (mainGameMechsRef->getBoardSizeY() - 2) + 1;
         objPos tempPos = objPos(x, y, '*');
+        // body collision check
         for (int i = 0; i < bodySize; ++i) {
             objPos genFood = snakeBody->getElement(i);
             if (tempPos.isPosEqual(&genFood)) {
@@ -47,6 +47,7 @@ void Food::generateFood(objPosArrayList* snakeBody, int def) {
                 break;
             }
         }
+        // self collision check
         for (int i = 0; i < foodSize; ++i) {
             objPos genFood = foodPosList->getElement(i);
             if (tempPos.isPosEqual(&genFood)) {
@@ -56,7 +57,11 @@ void Food::generateFood(objPosArrayList* snakeBody, int def) {
         }
 
     } while (!isValid);
+
+    // defult to normal food
     char sym = '*';
+
+    // if not defult food, choose randomly from the pool
     if (def == 0) {
         int entry = rand() % 3 + 1;
         switch (entry) {
