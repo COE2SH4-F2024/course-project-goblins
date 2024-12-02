@@ -114,7 +114,7 @@ void RunLogic(void) {
 
     player->selfCollisionCheck();
 
-    if (gameMechs->getLoseFlagStatus())
+    if (gameMechs->getLoseFlagStatus() || player->getPlayerBody()->getSize() >= 200)
         gameMechs->setExitTrue();
 
     gameMechs->clearInput();

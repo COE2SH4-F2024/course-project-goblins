@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "Food.h"
-#define NUM_OF_ITEM 5
 
 GameMechs::GameMechs() {
     // std::cout << "GameMechs const: ";
