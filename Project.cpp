@@ -10,6 +10,7 @@
 using namespace std;
 
 #define DELAY_CONST 100000
+#define DEBUGINFO 1
 
 GameMechs* gameMechs;
 Player* player;
@@ -59,6 +60,7 @@ void Initialize(void) {
 }
 
 void GetInput(void) {
+    gameMechs->clearInput();
     if (MacUILib_hasChar()) {
         char input = MacUILib_getChar();
         gameMechs->setInput(input);
@@ -139,8 +141,6 @@ void RunLogic(void) {
     // set game ending condition
     if (gameMechs->getLoseFlagStatus() || player->getPlayerBody()->getSize() >= 200)
         gameMechs->setExitTrue();
-
-    gameMechs->clearInput();
 }
 
 void DrawScreen(void) {
@@ -209,7 +209,8 @@ void DrawScreen(void) {
     // Print at once
     // MacUILib_clearScreen();
     // cout << "\033[2J\033[1;1H";
-    cout << "\033[H" << boardString;
+    // cout << "\033[H" << boardString;
+    cout << boardString;
 
     // Game info
     if (gameMechs->getLoseFlagStatus()) {
@@ -241,21 +242,23 @@ void DrawScreen(void) {
          << "Press [Space] to quit." << "     " << endl
          << endl;
 
-    // Debug printer
-    // cout << "debug info: " << "     " << endl
-    //      << "t to simulate eating food" << "     " << endl
-    //      << "Player Position: ";
-    // player->getHearPos()->printobjPos();
-    // cout << "     " << endl;
-    // cout << "Food Position: ";
-    // food->getFoodPos()->printobjPos();
-    // cout << "     " << endl;
+    if (DEBUGINFO) {
+        cout << "debug info: " << "     " << endl
+             << "t to simulate eating food" << "     " << endl
+             << "Player Position: ";
+        player->getHearPos().printobjPos();
+        cout << "     " << endl;
+        cout << "Food Position: ";
+        food->getFoodPos()->printobjPos();
+        cout << "     " << endl;
 
-    // cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " First 5 Position(s): " << "     " << endl;
-    // for (int i = 0; i < min(player->getsize(), 5); i++) {
-    //     cout << "Body part " << i << ' ';
-    //     player->getPlayerBody()->getElement(i).getObjPos()->printobjPos();
-    // }
+        cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " First 5 Position(s): " << "     " << endl;
+        for (int i = 0; i < min(player->getsize(), 5); i++) {
+            cout << "Body part " << i << ' ';
+            player->getPlayerBody()->getElement(i).printobjPos();
+        }
+        cout << "\033[2J\033[1;1H";
+    }
 }
 
 void LoopDelay(void) {

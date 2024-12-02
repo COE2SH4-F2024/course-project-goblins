@@ -20,6 +20,7 @@ class GameMechs {
 
     // custom
     // char** board;
+    int infoToggle;
 
    public:
     GameMechs();
@@ -46,7 +47,6 @@ class GameMechs {
     void IncreaseDelay();
     void DecreaseDelay();
     int getDelay();
-    void SetDelay();
 };
 
 #endif

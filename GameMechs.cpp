@@ -10,11 +10,12 @@ GameMechs::GameMechs() {
     boardSizeX = 30;
     boardSizeY = 15;
     score = 0;
-    speed = 200000;
+    speed = 100000;
     exitFlag = false;
     loseFlag = false;
     input = '\0';
     // std::cout << "Success" << std::endl;
+    infoToggle = -1;
 }
 
 GameMechs::GameMechs(int boardX, int boardY) {
@@ -27,6 +28,7 @@ GameMechs::GameMechs(int boardX, int boardY) {
     loseFlag = false;
     input = '\0';
     // std::cout << "Success" << std::endl;
+    infoToggle = -1;
 }
 
 // do you need a destructor?
