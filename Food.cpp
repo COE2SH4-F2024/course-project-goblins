@@ -8,11 +8,11 @@
 
 // Do I even need a defult constractor?
 Food::Food(GameMechs* thisGMRef) {
-    std::cout << "Food const: ";
+    // std::cout << "Food const: ";
     mainGameMechsRef = thisGMRef;
     foodPos = new objPos;
     foodPos->setObjPos(1, 1, '*');
-    std::cout << "Success" << std::endl;
+    // std::cout << "Success" << std::endl;
 }
 
 Food::~Food() {

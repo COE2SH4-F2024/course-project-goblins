@@ -84,16 +84,20 @@ void RunLogic(void) {
 
 void DrawScreen(void) {
     // MacUILib_clearScreen();
-    cout << "\033[2J\033[1;1H";
-    char board[15][30];
 
-    // Draw the board
+    char board[15][30];
+    string boardString;
+
+    // Populate the board
     for (int y = 0; y < gameMechs->getBoardSizeY(); ++y) {
         for (int x = 0; x < gameMechs->getBoardSizeX(); ++x) {
             board[y][x] = ' ';
 
             if (x == 0 || y == 0 || x == gameMechs->getBoardSizeX() - 1 || y == gameMechs->getBoardSizeY() - 1) {
                 board[y][x] = '#';
+            }
+            if (y == food->getFoodPos()->pos->y && x == food->getFoodPos()->pos->x) {
+                board[y][x] = food->getFoodPos()->symbol;
             }
             for (int i = 0; i < player->getsize(); i++) {
                 if (y == player->getPlayerBody()->getElement(i).getObjPos()->pos->y && x == player->getPlayerBody()->getElement(i).getObjPos()->pos->x) {
@@ -103,33 +107,35 @@ void DrawScreen(void) {
             if (x == player->getHearPos()->pos->x && y == player->getHearPos()->pos->y) {
                 board[y][x] = player->getHearPos()->symbol;
             }
-            if (y == food->getFoodPos()->pos->y && x == food->getFoodPos()->pos->x) {
-                board[y][x] = food->getFoodPos()->symbol;
-            }
         }
     }
+
+    // Convert board to string
     for (int y = 0; y < gameMechs->getBoardSizeY(); ++y) {
         for (int x = 0; x < gameMechs->getBoardSizeX(); ++x) {
             switch (board[y][x]) {
                 case '#':
-                    cout << "\033[1;37m" << board[y][x] << "\033[0m";
+                    boardString += "\033[1;37m#\033[0m";
                     break;
                 case 'O':
-                    cout << "\033[1;32m" << board[y][x] << "\033[0m";
+                    boardString += "\033[1;32mO\033[0m";
                     break;
                 case '@':
-                    cout << "\033[1;92m" << board[y][x] << "\033[0m";
+                    boardString += "\033[1;92m@\033[0m";
                     break;
                 case '*':
-                    cout << "\033[1;31m" << board[y][x] << "\033[0m";
+                    boardString += "\033[1;31m*\033[0m";
                     break;
                 default:
-                    cout << board[y][x];
+                    boardString += board[y][x];
                     break;
             }
         }
-        cout << endl;
+        boardString += '\n';
     }
+    // Print at once
+    cout << "\033[H" << boardString;
+
     if (gameMechs->getLoseFlagStatus())
         cout << "\033[1;31m" << "You Lost" << "\033[0m" << endl;
 
@@ -138,27 +144,31 @@ void DrawScreen(void) {
 
     cout << endl;
 
-    cout << "Score: " << gameMechs->getScore() << endl;
-    cout << "Press [Space] to quit." << endl;
-    cout << endl;
+    cout << "Score: " << gameMechs->getScore() << endl
+         << "Use WASD for control of the snake" << endl
+         << "Press [Space] to quit." << endl
+         << endl
+         << endl;
 
-    cout << "debug info: " << endl;
-    cout << "Player Position: ";
-    player->getHearPos()->printobjPos();
-    cout << endl;
-    cout << "Food Position: ";
-    food->getFoodPos()->printobjPos();
-    cout << endl;
+    // cout << "debug info: " << endl
+    //      << "t to simulate eating food" << endl
+    //      << "Player Position: ";
+    // player->getHearPos()->printobjPos();
+    // cout << endl;
+    // cout << "Food Position: ";
+    // food->getFoodPos()->printobjPos();
+    // cout << endl;
 
-    cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " First 10 Position(s): " << endl;
-    for (int i = 0; i < min(player->getsize(), 10); i++) {
-        cout << "Body part " << i << ' ';
-        player->getPlayerBody()->getElement(i).getObjPos()->printobjPos();
-    }
+    // cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " First 5 Position(s): " << endl;
+    // for (int i = 0; i < min(player->getsize(), 5); i++) {
+    //     cout << "Body part " << i << ' ';
+    //     player->getPlayerBody()->getElement(i).getObjPos()->printobjPos();
+    // }
 }
 
 void LoopDelay(void) {
     MacUILib_Delay(DELAY_CONST);  // 0.1s delay
+    // MacUILib_Delay(500000);
 }
 
 void CleanUp(void) {

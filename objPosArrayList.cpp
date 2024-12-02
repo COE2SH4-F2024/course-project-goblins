@@ -8,11 +8,11 @@
 // Paste your Tested implementation here.
 
 objPosArrayList::objPosArrayList() {
-    std::cout << "objPosArrayList const: ";
+    // std::cout << "objPosArrayList const: ";
     arrayCapacity = ARRAY_MAX_CAP;
     listSize = 0;
     aList = new objPos[arrayCapacity];
-    std::cout << "Success" << std::endl;
+    // std::cout << "Success" << std::endl;
 }
 
 objPosArrayList::~objPosArrayList() {

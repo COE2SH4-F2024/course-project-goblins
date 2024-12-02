@@ -24,6 +24,7 @@ class GameMechs {
 
     // custom
     // char** board;
+    bool showDebufinfo;
 
    public:
     GameMechs();

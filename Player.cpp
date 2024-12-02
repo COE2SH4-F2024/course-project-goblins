@@ -4,13 +4,13 @@
 #include <set>
 
 Player::Player(GameMechs* thisGMRef) {
-    std::cout << "Player const: ";
+    // std::cout << "Player const: ";
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
     //  more actions to be included
     playerPosList = new objPosArrayList;
     playerPosList->insertHead(objPos(1, 1, '@'));
-    std::cout << "Success" << std::endl;
+    // std::cout << "Success" << std::endl;
 }
 
 Player::~Player() {
