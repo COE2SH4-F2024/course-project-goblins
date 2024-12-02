@@ -69,6 +69,7 @@ char objPos::getSymbolIfPosEqual(const objPos* refPos) const {
 
 // min 0f four
 objPos::objPos(const objPos& other) {
+    pos = new Pos;  // Allocate new memory
     pos->x = other.pos->x;
     pos->y = other.pos->y;
     symbol = other.symbol;
