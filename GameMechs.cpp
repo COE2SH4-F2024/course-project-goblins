@@ -10,6 +10,7 @@ GameMechs::GameMechs() {
     boardSizeX = 30;
     boardSizeY = 15;
     score = 0;
+    speed = 200000;
     exitFlag = false;
     loseFlag = false;
     input = '\0';
@@ -20,6 +21,7 @@ GameMechs::GameMechs(int boardX, int boardY) {
     // std::cout << "GameMechs const: ";
     boardSizeX = boardX;
     boardSizeY = boardY;
+    speed = 100000;
     score = 0;
     exitFlag = false;
     loseFlag = false;
@@ -78,3 +80,16 @@ void GameMechs::clearInput() {
 
 // More methods should be added here
 // using iteration 1B
+void GameMechs::IncreaseDelay() {
+    if (speed < 200000) {
+        speed = speed + 50000;
+    }
+}
+void GameMechs::DecreaseDelay() {
+    if (speed > 0) {
+        speed = speed - 50000;
+    }
+}
+int GameMechs::getDelay() {
+    return speed;
+}

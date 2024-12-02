@@ -13,7 +13,7 @@ class GameMechs {
     char input;
     bool exitFlag;
     bool loseFlag;
-    int score;
+    int score, speed;
 
     int boardSizeX;
     int boardSizeY;
@@ -43,6 +43,10 @@ class GameMechs {
 
     // More methods should be added here
     // using iteration 1B
+    void IncreaseDelay();
+    void DecreaseDelay();
+    int getDelay();
+    void SetDelay();
 };
 
 #endif

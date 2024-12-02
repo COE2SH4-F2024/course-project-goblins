@@ -65,6 +65,14 @@ void GetInput(void) {
 
 void RunLogic(void) {
     bool didEatfood = false;
+    char input;
+    input = gameMechs->getInput();
+    if (input == 'o') {
+        gameMechs->DecreaseDelay();
+    }
+    if (input == 'p') {
+        gameMechs->IncreaseDelay();
+    }
     if (gameMechs->getInput() == ' ')
         gameMechs->setExitTrue();
 
@@ -188,7 +196,7 @@ void DrawScreen(void) {
     cout << "\033[H" << boardString;
 
     if (gameMechs->getLoseFlagStatus()) {
-        cout << "\033[1;31m" << "You Lost" << "\033[0m" << endl;
+        cout << "\033[1;31m" << "game over!" << "\033[0m" << endl;
     } else {
         cout << endl;
     }
@@ -210,6 +218,8 @@ void DrawScreen(void) {
     cout << "Score: \033[1;32m" << gameMechs->getScore() << "\033[0m     " << endl
          << "Body Length: " << player->getPlayerBody()->getSize() << "     " << endl
          << "Use WASD for control of the snake" << "     " << endl
+         << "Use o to lower delay, p to increase delay" << "    " << endl
+         << "current delay:" << gameMechs->getDelay() + DELAY_CONST << "      " << endl
          << "\033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
          << "Press [Space] to quit." << "     " << endl
          << endl;
@@ -231,7 +241,7 @@ void DrawScreen(void) {
 }
 
 void LoopDelay(void) {
-    MacUILib_Delay(DELAY_CONST);  // 0.1s delay
+    MacUILib_Delay(DELAY_CONST + gameMechs->getDelay());  // 0.2s delay
     // MacUILib_Delay(500000);
 }
 
