@@ -31,6 +31,7 @@ class Player {
     void cuttail();
     int getsize();
     void selfCollisionCheck();
+    void addMoreTail();
 
    private:
     // objPos* playerPos;  // Upgrade this in iteration 3.

@@ -43,11 +43,17 @@ void Initialize(void) {
     player = new Player(gameMechs);
     food = new Food(gameMechs);
 
-    food->generateFood(player->getPlayerBody());
+    for (int i = 0; i < 2; ++i)
+        food->generateFood(player->getPlayerBody(), 1);
 
-    MacUILib_Delay(1500000);
+    for (int i = 0; i < 2; ++i)
+        food->generateFood(player->getPlayerBody(), 0);
+
+    // MacUILib_Delay(1500000);
     //  gameMechs->incrementScore();
-    cout << "\033[2J\033[1;1H";
+    // cout << "\033[2J\033[1;1H";
+    // hide cursor
+    cout << "\033[?25l";
 }
 
 void GetInput(void) {
@@ -58,17 +64,48 @@ void GetInput(void) {
 }
 
 void RunLogic(void) {
+    bool didEatfood = false;
     if (gameMechs->getInput() == ' ')
         gameMechs->setExitTrue();
 
     player->updatePlayerDir();
 
-    if (player->getHearPos()->isPosEqual(food->getFoodPos()) || gameMechs->getInput() == 't') {
-        // if player ate food
-        gameMechs->incrementScore();
-        food->generateFood(player->getPlayerBody());
-
-    } else if (player->getsize() > 0) {
+    for (int i = 0; i < food->getFoodPos()->getSize(); ++i) {
+        if (player->getHearPos()->isPosEqual(food->getFoodPos()->getElement(i).getObjPos()) || gameMechs->getInput() == 't') {
+            // if player ate food
+            gameMechs->incrementScore();
+            int foodtype = 1;
+            if (food->getFoodPos()->getElement(i).getSymbol() != '*') {
+                foodtype = 0;
+                switch (food->getFoodPos()->getElement(i).getSymbol()) {
+                    case 'S':  // Shrink
+                        for (int j = 0; j < 5; ++j) {
+                            if (player->getPlayerBody()->getSize() > 1) {
+                                player->getPlayerBody()->removeTail();
+                            }
+                        }
+                        break;
+                    case 'E':  // Extra score
+                        for (int j = 0; j < 10; ++j) {
+                            gameMechs->incrementScore();
+                        }
+                        break;
+                    case 'H':  // even more score but add 10 body parts
+                        for (int j = 0; j < 50; ++j) {
+                            gameMechs->incrementScore();
+                        }
+                        for (int k = 0; k < 10; ++k) {
+                            player->addMoreTail();
+                        }
+                        break;
+                }
+            }
+            food->getFoodPos()->removeAtIndex(i);
+            food->generateFood(player->getPlayerBody(), foodtype);
+            didEatfood = true;
+        }
+    }
+    if (player->getsize() > 0 && !didEatfood) {
         // if player did not ate food
         player->cuttail();
     }
@@ -96,8 +133,11 @@ void DrawScreen(void) {
             if (x == 0 || y == 0 || x == gameMechs->getBoardSizeX() - 1 || y == gameMechs->getBoardSizeY() - 1) {
                 board[y][x] = '#';
             }
-            if (y == food->getFoodPos()->pos->y && x == food->getFoodPos()->pos->x) {
-                board[y][x] = food->getFoodPos()->symbol;
+
+            for (int i = 0; i < food->getFoodPos()->getSize(); i++) {
+                if (y == food->getFoodPos()->getElement(i).getObjPos()->pos->y && x == food->getFoodPos()->getElement(i).getObjPos()->pos->x) {
+                    board[y][x] = food->getFoodPos()->getElement(i).getSymbol();
+                }
             }
             for (int i = 0; i < player->getsize(); i++) {
                 if (y == player->getPlayerBody()->getElement(i).getObjPos()->pos->y && x == player->getPlayerBody()->getElement(i).getObjPos()->pos->x) {
@@ -126,6 +166,15 @@ void DrawScreen(void) {
                 case '*':
                     boardString += "\033[1;31m*\033[0m";
                     break;
+                case 'S':
+                    boardString += "\033[1;34mS\033[0m";
+                    break;
+                case 'E':
+                    boardString += "\033[1;36mE\033[0m";
+                    break;
+                case 'H':
+                    boardString += "\033[1;35mH\033[0m";
+                    break;
                 default:
                     boardString += board[y][x];
                     break;
@@ -134,32 +183,39 @@ void DrawScreen(void) {
         boardString += '\n';
     }
     // Print at once
+    // cout << "\033[2J\033[1;1H";
     cout << "\033[H" << boardString;
 
-    if (gameMechs->getLoseFlagStatus())
+    if (gameMechs->getLoseFlagStatus()) {
         cout << "\033[1;31m" << "You Lost" << "\033[0m" << endl;
+    } else {
+        cout << endl;
+    }
 
-    if (gameMechs->getExitFlagStatus())
-        cout << "Game terminated" << endl;
+    if (gameMechs->getExitFlagStatus()) {
+        cout << "\033[1;33m" << "Game terminated" << "\033[0m" << endl;
+    } else {
+        cout << endl;
+    }
 
     cout << endl;
 
-    cout << "Score: " << gameMechs->getScore() << endl
-         << "Use WASD for control of the snake" << endl
-         << "Press [Space] to quit." << endl
-         << endl
+    cout << "Score: " << gameMechs->getScore() << "     " << endl
+         << "Use WASD for control of the snake" << "     " << endl
+         << "\033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
+         << "Press [Space] to quit." << "     " << endl
          << endl;
 
-    // cout << "debug info: " << endl
-    //      << "t to simulate eating food" << endl
+    // cout << "debug info: " << "     " << endl
+    //      << "t to simulate eating food" << "     " << endl
     //      << "Player Position: ";
     // player->getHearPos()->printobjPos();
-    // cout << endl;
+    // cout << "     " << endl;
     // cout << "Food Position: ";
     // food->getFoodPos()->printobjPos();
-    // cout << endl;
+    // cout << "     " << endl;
 
-    // cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " First 5 Position(s): " << endl;
+    // cout << "Body: 'o'; Number of body: " << player->getPlayerBody()->getSize() << " First 5 Position(s): " << "     " << endl;
     // for (int i = 0; i < min(player->getsize(), 5); i++) {
     //     cout << "Body part " << i << ' ';
     //     player->getPlayerBody()->getElement(i).getObjPos()->printobjPos();
@@ -172,6 +228,8 @@ void LoopDelay(void) {
 }
 
 void CleanUp(void) {
+    // Show the cursor
+    cout << "\033[?25h";
     delete gameMechs;
     delete player;
     delete food;

@@ -20,6 +20,7 @@ class objPosArrayList : public objPos {
     void insertTail(objPos thisPos);
     void removeHead();
     void removeTail();
+    void removeAtIndex(int index);  // custom
 
     objPos getHeadElement() const;
     objPos getTailElement() const;

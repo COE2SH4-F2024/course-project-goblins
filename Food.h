@@ -9,12 +9,13 @@ class Food {
    private:
     objPos* foodPos;
     GameMechs* mainGameMechsRef;
+    objPosArrayList* foodPosList;
 
    public:
     Food(GameMechs* thisGMRef);
     ~Food();
-    void generateFood(objPosArrayList* snakeBody);
-    objPos* getFoodPos() const;
+    void generateFood(objPosArrayList* snakeBody, int def);
+    objPosArrayList* getFoodPos() const;
 };
 
 #endif

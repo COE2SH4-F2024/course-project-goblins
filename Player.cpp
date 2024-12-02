@@ -9,7 +9,7 @@ Player::Player(GameMechs* thisGMRef) {
     myDir = STOP;
     //  more actions to be included
     playerPosList = new objPosArrayList;
-    playerPosList->insertHead(objPos(1, 1, '@'));
+    playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX() / 2, mainGameMechsRef->getBoardSizeY() / 2, '@'));
     // std::cout << "Success" << std::endl;
 }
 
@@ -58,10 +58,16 @@ void Player::movePlayer() {
     // PPA3 Finite State Machine logic
     int x = playerPosList->getHeadElement().getObjPos()->pos->x;
     int y = playerPosList->getHeadElement().getObjPos()->pos->y;
+
+    if (myDir == STOP) {
+        return;
+    }
+
     if (playerPosList->getSize() > 0) {
         playerPosList->removeHead();
         playerPosList->insertHead(objPos(x, y, 'O'));
     }
+
     switch (myDir) {
         case UP:
             y -= 1;
@@ -110,4 +116,10 @@ void Player::selfCollisionCheck() {
             mainGameMechsRef->setLoseFlag();
         }
     }
+}
+
+void Player::addMoreTail() {
+    int x = playerPosList->getTailElement().getObjPos()->pos->x;
+    int y = playerPosList->getTailElement().getObjPos()->pos->y;
+    playerPosList->insertTail(objPos(x, y, 'O'));
 }

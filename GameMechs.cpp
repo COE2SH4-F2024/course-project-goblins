@@ -1,6 +1,10 @@
+
 #include "GameMechs.h"
 
 #include <iostream>
+
+#include "Food.h"
+#define NUM_OF_ITEM 5
 
 GameMechs::GameMechs() {
     // std::cout << "GameMechs const: ";
@@ -11,7 +15,6 @@ GameMechs::GameMechs() {
     loseFlag = false;
     input = '\0';
     // std::cout << "Success" << std::endl;
-    showDebufinfo = -1;
 }
 
 GameMechs::GameMechs(int boardX, int boardY) {
@@ -23,7 +26,6 @@ GameMechs::GameMechs(int boardX, int boardY) {
     loseFlag = false;
     input = '\0';
     // std::cout << "Success" << std::endl;
-    showDebufinfo = -1;
 }
 
 // do you need a destructor?

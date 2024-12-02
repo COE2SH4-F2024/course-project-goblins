@@ -66,3 +66,12 @@ objPos objPosArrayList::getElement(int index) const {
         return aList[index];
     }
 }
+
+void objPosArrayList::removeAtIndex(int index) {
+    if (index >= 0 && index < listSize) {
+        for (int i = index; i < listSize - 1; ++i) {
+            aList[i] = aList[i + 1];
+        }
+        --listSize;
+    }
+}

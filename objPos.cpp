@@ -92,5 +92,5 @@ objPos& objPos::operator=(const objPos& other) {
 
 // debug print
 void objPos::printobjPos() {
-    std::cout << "x: " << pos->x << " y: " << pos->y << " sym: " << symbol << std::endl;
+    std::cout << "x: " << pos->x << " y: " << pos->y << " sym: " << symbol << "     " << std::endl;
 }

@@ -3,8 +3,6 @@
 
 #include <time.h>
 
-#include <cstdlib>
-
 #include "objPos.h"
 #include "objPosArrayList.h"
 
@@ -20,11 +18,8 @@ class GameMechs {
     int boardSizeX;
     int boardSizeY;
 
-    // objPos* food;
-
     // custom
     // char** board;
-    bool showDebufinfo;
 
    public:
     GameMechs();
