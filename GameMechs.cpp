@@ -139,7 +139,7 @@ string GameMechs::generateGameBoard(Food* food, Player* player) {
                     boardString += "\033[1;37m#\033[0m";
                     break;
                 case 'O':
-                    boardString += "\033[1;32mO\033[0m";
+                    boardString += "\033[22;32mO\033[0m";
                     break;
                 case '@':
                     boardString += "\033[1;92m@\033[0m";

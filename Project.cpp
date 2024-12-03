@@ -101,7 +101,7 @@ void DrawScreen(void) {
             MacUILib_clearScreen();
             break;
         case 2:
-            cout << "\033[2J\033[1;1H";
+            cout << "\033[3J\033[1;1H";
             break;
         case 3:
             break;
@@ -121,7 +121,7 @@ void DrawScreen(void) {
     }
 
     if (player->getPlayerBody()->getSize() >= 200) {
-        cout << "\033[1;39m" << "You Win" << "\033[0m" << endl;
+        cout << "\033[1;32m" << "You Have Reached Max Body Size" << "\033[0m" << endl;
     } else {
         cout << endl;
     }
@@ -134,14 +134,14 @@ void DrawScreen(void) {
 
     cout << endl;
 
-    cout << "Score: \033[1;32m" << gameMechs->getScore() << "\033[0m     " << endl
-         << "Body Length: " << player->getPlayerBody()->getSize() << "     " << endl
-         << "Use WASD for control of the snake" << "     " << endl
+    cout << "\033[22;31m*: +1 body, +1 score\033[0m;\033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
+         << "\033[22;32mScore: " << gameMechs->getScore() << "    " << endl
+         << "Body Length: " << player->getPlayerBody()->getSize() << "\033[0m      " << endl
+         << "\033[1;90mUse WASD for control of the snake" << "     " << endl
          << "Use o to lower delay, p to increase delay" << "    " << endl
-         << "current delay:" << gameMechs->getDelay() + DELAY_CONST << "      " << endl
-         << "\033[1;31m*: +1 body, +1 score\033[0m;\033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
-         << "\033[1;33mYou can choose experimental screen clean method at the top of the Project.cpp file\033[0m" << endl
-         << "Press [Space] to quit." << "     " << endl
+         << "current delay:" << gameMechs->getDelay() + DELAY_CONST << "\033[0m      " << endl
+         << "\033[22;33mYou can choose experimental screen clean method at the top of the Project.cpp file\033[0m" << endl
+         << "\033[22;91mPress [Space] to quit." << "\033[0m     " << endl
          << endl;
 
     if (DEBUGINFO) {
