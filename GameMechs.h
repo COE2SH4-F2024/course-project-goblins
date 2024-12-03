@@ -3,8 +3,13 @@
 
 #include <time.h>
 
+#include <iostream>
+
 #include "objPos.h"
 #include "objPosArrayList.h"
+
+class Food;
+class Player;
 
 using namespace std;
 
@@ -48,6 +53,7 @@ class GameMechs {
     void DecreaseDelay();
     int getDelay() const;
     void processInput();
+    string generateGameBoard(Food* food, Player* player);
 };
 
 #endif

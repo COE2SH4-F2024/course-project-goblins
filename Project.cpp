@@ -92,69 +92,10 @@ void RunLogic(void) {
 }
 
 void DrawScreen(void) {
-    // MacUILib_clearScreen();
-
-    char board[GAMEBOARDY][GAMEBOARDX];
     string boardString;
+    boardString = gameMechs->generateGameBoard(food, player);
 
-    // Populate the board
-    for (int y = 0; y < gameMechs->getBoardSizeY(); ++y) {
-        for (int x = 0; x < gameMechs->getBoardSizeX(); ++x) {
-            board[y][x] = ' ';
-
-            if (x == 0 || y == 0 || x == gameMechs->getBoardSizeX() - 1 || y == gameMechs->getBoardSizeY() - 1) {
-                board[y][x] = '#';
-            }
-
-            for (int i = 0; i < food->getFoodPos()->getSize(); i++) {
-                if (y == food->getFoodPos()->getElement(i).getObjPos().pos->y && x == food->getFoodPos()->getElement(i).getObjPos().pos->x) {
-                    board[y][x] = food->getFoodPos()->getElement(i).getSymbol();
-                }
-            }
-            for (int i = 0; i < player->getsize(); i++) {
-                if (y == player->getPlayerBody()->getElement(i).getObjPos().pos->y && x == player->getPlayerBody()->getElement(i).getObjPos().pos->x) {
-                    board[y][x] = player->getPlayerBody()->getElement(i).getSymbol();
-                }
-            }
-            if (x == player->getHearPos().pos->x && y == player->getHearPos().pos->y) {
-                board[y][x] = player->getHearPos().symbol;
-            }
-        }
-    }
-
-    // Convert board to string
-    for (int y = 0; y < gameMechs->getBoardSizeY(); ++y) {
-        for (int x = 0; x < gameMechs->getBoardSizeX(); ++x) {
-            switch (board[y][x]) {
-                case '#':
-                    boardString += "\033[1;37m#\033[0m";
-                    break;
-                case 'O':
-                    boardString += "\033[1;32mO\033[0m";
-                    break;
-                case '@':
-                    boardString += "\033[1;92m@\033[0m";
-                    break;
-                case '*':
-                    boardString += "\033[1;31m*\033[0m";
-                    break;
-                case 'S':
-                    boardString += "\033[1;34mS\033[0m";
-                    break;
-                case 'E':
-                    boardString += "\033[1;36mE\033[0m";
-                    break;
-                case 'H':
-                    boardString += "\033[1;35mH\033[0m";
-                    break;
-                default:
-                    boardString += board[y][x];
-                    break;
-            }
-        }
-        boardString += '\n';
-    }
-
+    // experimental screen clean switches
     switch (DISPLAYMETHOD) {
         case 1:
             MacUILib_clearScreen();
@@ -168,6 +109,7 @@ void DrawScreen(void) {
             MacUILib_clearScreen();
             break;
     }
+
     // Print at once
     cout << "\033[H" << boardString;
 

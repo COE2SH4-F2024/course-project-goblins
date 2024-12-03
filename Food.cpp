@@ -2,9 +2,6 @@
 
 #include <iostream>
 
-#include "GameMechs.h"
-#include "objPosArrayList.h"
-
 Food::Food() {
     foodPosList = new objPosArrayList;
     foodPosList->insertHead(objPos(1, 1, '*'));
