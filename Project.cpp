@@ -134,7 +134,7 @@ void DrawScreen(void) {
 
     cout << endl;
 
-    cout << "\033[22;31m*: +1 body, +1 score\033[0m;\033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
+    cout << "\033[22;31m*: +1 body, +1 score\033[0m; \033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
          << "\033[22;32mScore: " << gameMechs->getScore() << "    " << endl
          << "Body Length: " << player->getPlayerBody()->getSize() << "\033[0m      " << endl
          << "\033[1;90mUse WASD for control of the snake" << "     " << endl
