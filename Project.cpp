@@ -1,3 +1,4 @@
+// algorithm is only used in debug print to find the min between the number of body and 10
 #include <algorithm>
 #include <iostream>
 
@@ -11,6 +12,8 @@ using namespace std;
 
 #define DELAY_CONST 100000
 #define DEBUGINFO 0
+#define GAMEBOARDX 30
+#define GAMEBOARDY 15
 
 // vSync is hard coded
 #define DISPLAYMETHOD 1  // 1 for MacLib_cleanscreen; 2 for escape code clean screen; 3 for no clean screen
@@ -43,7 +46,7 @@ void Initialize(void) {
     MacUILib_init();
     cout << "\033[2J\033[1;1H";
     srand(time(NULL));
-    gameMechs = new GameMechs(30, 15);
+    gameMechs = new GameMechs(GAMEBOARDX, GAMEBOARDY);
     player = new Player(gameMechs);
     food = new Food(gameMechs);
 
@@ -71,75 +74,17 @@ void GetInput(void) {
 }
 
 void RunLogic(void) {
-    bool didEatfood = false;
-    char input;
-
     // Get function input
-    input = gameMechs->getInput();
-    if (input == 'o') {
-        gameMechs->DecreaseDelay();
-    }
-    if (input == 'p') {
-        gameMechs->IncreaseDelay();
-    }
-    if (input == ' ') {
-        gameMechs->setExitTrue();
-    }
+    gameMechs->processInput();
 
     // update player direction
     player->updatePlayerDir();
 
     // Food Collision Check
-    for (int i = 0; i < food->getFoodPos()->getSize(); ++i) {
-        objPos foodPos = food->getFoodPos()->getElement(i);
-        if (player->getHearPos().isPosEqual(&foodPos) || gameMechs->getInput() == 't') {
-            // if player ate food
-            gameMechs->incrementScore();
-            int foodtype = 1;
-            // special food
-            // if had more time we would write this inside of the food function
-            if (food->getFoodPos()->getElement(i).getSymbol() != '*') {
-                foodtype = 0;
-                switch (food->getFoodPos()->getElement(i).getSymbol()) {
-                    case 'S':  // Shrink
-                        for (int j = 0; j < 6; ++j) {
-                            if (player->getPlayerBody()->getSize() > 3) {
-                                player->getPlayerBody()->removeTail();
-                            }
-                        }
-                        break;
-                    case 'E':  // Extra score
-                        for (int j = 0; j < 10; ++j) {
-                            gameMechs->incrementScore();
-                        }
-                        break;
-                    case 'H':  // even more score but add 10 body parts
-                        for (int j = 0; j < 50; ++j) {
-                            gameMechs->incrementScore();
-                        }
-                        for (int k = 0; k < 10; ++k) {
-                            player->addMoreTail();
-                        }
-                        break;
-                }
-            }
-            // generate new food according the type eaten
-            food->getFoodPos()->removeAtIndex(i);
-            food->generateFood(player->getPlayerBody(), foodtype);
-            didEatfood = true;
-        }
-    }
-    // if not eat any food, cut one body
-    if (player->getsize() > 0 && !didEatfood) {
-        // if player did not ate food
-        player->cuttail();
-    }
+    player->checkFood(food);
 
     // update player location
     player->movePlayer();
-
-    // self collision check
-    player->selfCollisionCheck();
 
     // set game ending condition
     if (gameMechs->getLoseFlagStatus() || player->getPlayerBody()->getSize() >= 200)
@@ -149,7 +94,7 @@ void RunLogic(void) {
 void DrawScreen(void) {
     // MacUILib_clearScreen();
 
-    char board[15][30];
+    char board[GAMEBOARDY][GAMEBOARDX];
     string boardString;
 
     // Populate the board
@@ -209,7 +154,7 @@ void DrawScreen(void) {
         }
         boardString += '\n';
     }
-    // Print at once
+
     switch (DISPLAYMETHOD) {
         case 1:
             MacUILib_clearScreen();
@@ -223,6 +168,7 @@ void DrawScreen(void) {
             MacUILib_clearScreen();
             break;
     }
+    // Print at once
     cout << "\033[H" << boardString;
 
     // Game info
@@ -251,7 +197,8 @@ void DrawScreen(void) {
          << "Use WASD for control of the snake" << "     " << endl
          << "Use o to lower delay, p to increase delay" << "    " << endl
          << "current delay:" << gameMechs->getDelay() + DELAY_CONST << "      " << endl
-         << "\033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
+         << "\033[1;31m*: +1 body, +1 score\033[0m;\033[1;34mS: -5 body\033[0m; \033[1;36mE: +10 score\033[0m; \033[1;35mH: +50 Score, +10 body\033[0m" << "     " << endl
+         << "\033[1;33mYou can choose experimental screen clean method at the top of the Project.cpp file\033[0m" << endl
          << "Press [Space] to quit." << "     " << endl
          << endl;
 

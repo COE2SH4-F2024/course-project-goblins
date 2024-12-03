@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "Food.h"
 #include "GameMechs.h"
 #include "objPos.h"
 #include "objPosArrayList.h"
@@ -32,6 +33,7 @@ class Player {
     int getsize();
     void selfCollisionCheck();
     void addMoreTail();
+    void checkFood(Food* food);
 
    private:
     // objPos* playerPos;  // Upgrade this in iteration 3.

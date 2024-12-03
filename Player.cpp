@@ -96,6 +96,7 @@ void Player::movePlayer() {
         y = 1;
 
     playerPosList->insertHead(objPos(x, y, '@'));
+    this->selfCollisionCheck();
 }
 
 // More methods to be added
@@ -121,4 +122,55 @@ void Player::selfCollisionCheck() {
 
 void Player::addMoreTail() {
     playerPosList->insertTail(playerPosList->getTailElement());
+}
+
+void Player::checkFood(Food* food) {
+    bool didEatfood = false;
+    for (int i = 0; i < food->getFoodPos()->getSize(); ++i) {
+        objPos foodPos = food->getFoodPos()->getElement(i);
+        if (playerPosList->getHeadElement().isPosEqual(&foodPos) || mainGameMechsRef->getInput() == 't') {
+            // if player ate food
+            int foodtype = 1;
+            // special food
+            // if had more time we would write this inside of the food function
+            if (food->getFoodPos()->getElement(i).getSymbol() != '*') {
+                foodtype = 0;
+                switch (food->getFoodPos()->getElement(i).getSymbol()) {
+                    case 'S':  // Shrink
+                        for (int j = 0; j < 6; ++j) {
+                            if (playerPosList->getSize() > 3) {
+                                playerPosList->removeTail();
+                            }
+                        }
+                        break;
+                    case 'E':  // Extra score
+                        for (int j = 0; j < 10; ++j) {
+                            mainGameMechsRef->incrementScore();
+                        }
+                        this->cuttail();
+                        break;
+                    case 'H':  // even more score but add 10 body parts
+                        for (int j = 0; j < 50; ++j) {
+                            mainGameMechsRef->incrementScore();
+                        }
+                        for (int k = 0; k < 9; ++k) {
+                            this->addMoreTail();
+                        }
+                        break;
+                }
+            } else {
+                mainGameMechsRef->incrementScore();
+            }
+
+            // generate new food according the type eaten
+            food->getFoodPos()->removeAtIndex(i);
+            food->generateFood(playerPosList, foodtype);
+            didEatfood = true;
+        }
+    }
+    // if not eat any food, cut one body
+    if (playerPosList->getSize() > 0 && !didEatfood) {
+        // if player did not ate food
+        playerPosList->removeTail();
+    }
 }

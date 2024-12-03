@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-#include "Food.h"
-
 GameMechs::GameMechs() {
     // std::cout << "GameMechs const: ";
     boardSizeX = 30;
@@ -92,6 +90,12 @@ void GameMechs::DecreaseDelay() {
         speed = speed - 50000;
     }
 }
-int GameMechs::getDelay() {
+int GameMechs::getDelay() const {
     return speed;
+}
+
+void GameMechs::processInput() {
+    if (this->input == 'o') this->DecreaseDelay();
+    if (this->input == 'p') this->IncreaseDelay();
+    if (this->input == ' ') this->setExitTrue();
 }

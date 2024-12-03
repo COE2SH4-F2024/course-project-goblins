@@ -46,7 +46,8 @@ class GameMechs {
     // using iteration 1B
     void IncreaseDelay();
     void DecreaseDelay();
-    int getDelay();
+    int getDelay() const;
+    void processInput();
 };
 
 #endif
